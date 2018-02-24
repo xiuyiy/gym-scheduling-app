@@ -5,12 +5,12 @@
     app.config(function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/reserve');
         $stateProvider
-            .state('signup', {
-                url: '/signup',
+            .state('class', {
+                url: '/class',
                 views: {
                     '': {
-                        templateUrl: 'views/index.html',
-                        controller: 'signUpController'
+                        templateUrl: 'views/class.html',
+                        controller: 'classController'
                     }
                 }
             })

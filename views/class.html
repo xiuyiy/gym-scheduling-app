@@ -1,1 +1,25 @@
-<div>testing</div>
+<div ng-controller="classController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col">MOM</div>
+                <div class="col">TUE</div>
+                <div class="col">WED</div>
+                <div class="col">THU</div>
+                <div class="col">FRI</div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row" ng-repeat="items in InspireList">
+                <div class="col" ng-repeat="item in items">
+                    <div>{{item.title}}</div>
+                    <div>{{item.instructor}}</div>
+                    <div>{{item.startTime}}</div>
+                    <div>{{item.duration}}</div>
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
