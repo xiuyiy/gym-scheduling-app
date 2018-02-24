@@ -1,0 +1,25 @@
+{
+  "name": "gym-scheduling-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "@uirouter/angularjs": "^1.0.15",
+    "angular": "^1.6.9",
+    "jquery": "^3.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiuyiy/gym-scheduling-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xiuyiy/gym-scheduling-app/issues"
+  },
+  "homepage": "https://github.com/xiuyiy/gym-scheduling-app#readme"
+}
