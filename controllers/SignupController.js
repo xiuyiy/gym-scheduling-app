@@ -6,12 +6,12 @@ Created by Ming He on Feb 24, 2018
 
     var injectParams = ['$scope', '$rootScope'];
 
-    var signupController = function ($scope, $rootScope) {
-
+    var ReserveController = function ($scope, $rootScope) {
+        console.log("everything is great.");
     }
 
-    signupController.$inject = injectParams;
+    ReserveController.$inject = injectParams;
 
-    angular.module('gym-schedule-app').controller('signupController', signupController);
+    angular.module('gym-schedule-app').controller('ReserveController', ReserveController);
 
 }());

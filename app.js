@@ -1,9 +1,9 @@
 (function() {
 
-    var app = angular.module('gym-schedule-app', ['ui.router', 'ui.bootstrap', 'ui.select', 'mwl.calendar']);
+    var app = angular.module('gym-schedule-app', ['ui.router']);
 
     app.config(function($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise('/signUp');
+        $urlRouterProvider.otherwise('/reserve');
         $stateProvider
             .state('signup', {
                 url: '/signup',
@@ -11,6 +11,15 @@
                     '': {
                         templateUrl: 'views/index.html',
                         controller: 'signUpController'
+                    }
+                }
+            })
+            .state('reserve', {
+                url: '/reserve',
+                views: {
+                    '': {
+                        templateUrl: 'views/reserve.html',
+                        controller: 'reserveController'
                     }
                 }
             })
