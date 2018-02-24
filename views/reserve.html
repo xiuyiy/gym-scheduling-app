@@ -1,11 +1,17 @@
-<div>
-    Welcome to Reserve Board!
-</div>
-<div>
+<div style="width:800px;padding:20px;">
     <div>
-        MIRROR
+        Welcome to Reserve Board!
     </div>
-    <div>
-        
+    <div class="row">
+        <div class="col-sm-12">
+            <div>
+                MIRROR
+            </div>
+            <div>
+                <div ng-repeat="n in totalNumber">
+                    {{n}}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
