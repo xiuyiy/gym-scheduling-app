@@ -60,7 +60,7 @@ var classSchecule = [{},//11
     {},//41
     {
         "title": "BARBELL STRENGTH",
-        "ps": "20 people max"
+        "ps": "20 people max",
         "instructor": "IULIIA",
         "startTime": "5:15 PM",
         "duration": "55 MIN"
@@ -68,7 +68,7 @@ var classSchecule = [{},//11
     {}, //43
     {
         "title": "BARBELL STRENGTH",
-        "ps": "20 people max"
+        "ps": "20 people max",
         "instructor": "IULIIA",
         "startTime": "5:15 PM",
         "duration": "55 MIN"
