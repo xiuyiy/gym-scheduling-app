@@ -1,0 +1,16 @@
+.black-title {
+    cursor: not-allowed;
+    collor: black;
+    font-weight: bold;
+}
+
+.black-header {
+    collor: black;
+    font-weight: bold;
+}
+
+.lime-title {
+    cursor: pointer;
+    color: #5a9808;
+    font-weight: bold;
+}
