@@ -9,10 +9,11 @@
                 <div class="col">FRI</div>
             </div>
         </div>
+        &nbsp;
         <div class="panel-body">
             <div class="row" ng-repeat="items in InspireList">
                 <div class="col" ng-repeat="item in items">
-                    <div>{{item.title}}</div>
+                    <div ng-click="goToReservationPage(item)" class="{{item.titleStyle}}">{{item.title}}</div>
                     <div>{{item.instructor}}</div>
                     <div>{{item.startTime}}</div>
                     <div>{{item.duration}}</div>
@@ -21,5 +22,4 @@
             </div>
         </div>
     </div>
-</div>
 </div>
