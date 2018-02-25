@@ -10,9 +10,10 @@
             <div class="col-sm-12" style="text-align:center;">
                 <div style="margin: 10px auto;width:400px;">
                     <div style="width:360px;float:left;">
+                        <!--display $index+1 but actually click on $index-->
                         <div ng-repeat="res in reservations track by $index" class="seats"
                             ng-class="res.name&&res.employeeId?'occupied':''"
-                            ng-click="selectSeat($index+1)">
+                            ng-click="selectSeat($index)">
                             {{$index+1}}
                         </div>
                     </div>
@@ -23,10 +24,10 @@
             </div>
         </div>
     </div>
-    <div ng-show="selectedSeat" class="row col-sm-12">
+    <div ng-show="selectedSeat||selectedSeat===0" class="row col-sm-12">
         <div style="height: 30px;"></div>
         <div style="margin-bottom:10px;" class="col-sm-12">
-            To reserve seat {{selectedSeat}}, please enter below information:
+            To reserve seat {{selectedSeat+1}}, please enter below information:
         </div>
         <div class="input-text row col-sm-12" style="margin-bottom:10px;">
             <div class="col-sm-5 adjust-column" style="text-align:right;">Your Name:</div>

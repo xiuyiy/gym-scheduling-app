@@ -9,7 +9,8 @@ Created by Ming He on Feb 24, 2018
     var reserveController = function ($scope, $rootScope, $http) {
         //var currentDate = new Date();
         //var className = "Barbell";
-        $scope.reservationUrl = "http://mac-mhe2.corp.microstrategy.com:3000/reservations";
+        // $scope.reservationUrl = "http://mac-mhe2.corp.microstrategy.com:3000/reservations";
+        $scope.reservationUrl = "http://localhost:3000/reservations";
 
 
         $scope.generateReservations = function() {
@@ -17,6 +18,7 @@ Created by Ming He on Feb 24, 2018
             $http.get($scope.reservationUrl + "?date=" + date)
                 .then(function(response){
                     $scope.oriReservations = response.data;
+                    debugger;
                     $scope.renderReservations();
                 }).catch(function(response){
                     alert("Error!");
@@ -25,14 +27,14 @@ Created by Ming He on Feb 24, 2018
         $scope.renderReservations = function() {
             $scope.totalNumber = 20;
             $scope.reservations = [];
-            for (var i = 1; i < $scope.totalNumber; i++) {
+            for (var i = 1; i <= $scope.totalNumber; i++) {
                 var res = $scope.oriReservations.filter(function(element){
                     return (element.spotId == i);
                 });
                 if (res.length > 0) {
-                    $scope.reservations[i] = res[0];
+                    $scope.reservations[i-1] = res[0];
                 } else {
-                    $scope.reservations[i] = {};
+                    $scope.reservations[i-1] = {};
                 }
             }
         };
@@ -84,6 +86,7 @@ Created by Ming He on Feb 24, 2018
         };
 
         $scope.selectSeat = function (index) {
+            debugger;
             if (!$scope.reservations[index].name) {
                 $scope.selectedSeat = index;
             } else {
