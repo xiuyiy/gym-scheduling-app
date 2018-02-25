@@ -26,7 +26,7 @@ Created by Ming He on Feb 24, 2018
         };
         $scope.renderReservations = function() {
             $scope.totalNumber = 20;
-            $scope.reservations = [];
+            $scope.reservations = [];//0-19
             for (var i = 1; i <= $scope.totalNumber; i++) {
                 var res = $scope.oriReservations.filter(function(element){
                     return (element.spotId == i);
@@ -58,7 +58,7 @@ Created by Ming He on Feb 24, 2018
                 console.log(body);
                 $http.post($scope.reservationUrl, body)
                     .then(function(response){
-                        $scope.reservations[$scope.selectedSeat] = body;
+                        $scope.reservations[$scope.selectedSeat-1] = body;
                         $scope.selectedSeat = null;
                         alert($scope.reserveMessage);
                     }).catch(function(response){
@@ -85,10 +85,13 @@ Created by Ming He on Feb 24, 2018
             return [year, month, day].join('');
         };
 
+        //index ranging from 0-19
         $scope.selectSeat = function (index) {
             debugger;
             if (!$scope.reservations[index].name) {
-                $scope.selectedSeat = index;
+
+                //selectedSeat ranging from 1-20
+                $scope.selectedSeat = index+1;
             } else {
                 //alert("The seat is already occupied!");
             }
