@@ -1,0 +1,37 @@
+/**
+Created by Ming He on Feb 24, 2018
+**/
+
+.seats {
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    border: 1px solid #444649;
+    border-radius: 15px;
+    width: 30px;
+    height: 30px;
+    padding-top: 2px;
+    cursor: pointer;
+    background-color: #4990E2;
+    color: #FFF;
+}
+
+.occupied {
+    cursor: not-allowed;
+    background-color: #CCCCCC;
+    color: #444649;
+}
+
+.vertical-text {
+	transform: rotate(90deg);
+	transform-origin: left top 0;
+}
+
+.input-text {
+    font-size:13px;
+}
+
+.adjust-column {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}

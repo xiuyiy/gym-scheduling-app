@@ -14,7 +14,7 @@ Created by Ming He on Feb 24, 2018
 
         $scope.generateReservations = function() {
             $scope.reservations = [];
-            for (var i = 0; i < $socpe.totalNumber; i++) {
+            for (var i = 0; i < $scope.totalNumber; i++) {
                 $scope.reservations[i] = {
                     "name": null,
                     "employeeId": null
@@ -22,20 +22,21 @@ Created by Ming He on Feb 24, 2018
             }
         };
 
-        $scope.reserveASpot = function(name, employeeId, number) {
+        $scope.submitReservation = function(name, employeeId) {
             if ($scope.reservations.some(function(element){
                 return (element.employeeId === employeeId);
             })) {
                 $scope.reserveSuc = false;
                 $scope.reserveMessage = "Sorry you've already reserved.";
             } else {
-                $scope.reservations[number] = {
+                $scope.reservations[$scope.selectedSeat] = {
                     "name": name,
                     "employeeId": employeeId
-                }
+                };
                 $scope.reserveSuc = true;
                 $scope.reserveMessage = "Your just reserved successfully!";
             }
+            alert($scope.reserveMessage);
         };
 
         $scope.formatDate = function (date) {
@@ -48,8 +49,13 @@ Created by Ming He on Feb 24, 2018
             day = day.slice(day.length - 2);
 
             return [year, month, day].join('-');
-        }
+        };
 
+        $scope.selectSeat = function (index) {
+            $scope.selectedSeat = index - 1;
+        };
+
+        $scope.generateReservations();
     };
 
     reserveController.$inject = injectParams;

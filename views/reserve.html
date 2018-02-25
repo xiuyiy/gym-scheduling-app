@@ -1,17 +1,48 @@
-<div style="width:800px;padding:20px;">
+<div style="text-align:center;padding:20px;width:400px;margin:10px auto;">
     <div>
         Welcome to Reserve Board!
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <div>
+            <div style="margin-top:10px;">
                 MIRROR
             </div>
-            <div>
-                <div ng-repeat="n in totalNumber">
-                    {{n}}
+            <div class="col-sm-12" style="text-align:center;">
+                <div style="margin: 10px auto;width:400px;">
+                    <div style="width:360px;float:left;">
+                        <div ng-repeat="res in reservations track by $index" class="seats"
+                            ng-class="res.name&&res.employeeId?'occupied':''"
+                            ng-click="selectSeat($index+1)">
+                            {{$index + 1}}
+                        </div>
+                    </div>
+                    <div class="vertical-text" style="width:30px;display:inline-block">
+                        WINDOW
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div ng-show="selectedSeat" class="row col-sm-12">
+        <div style="height: 30px;"></div>
+        <div style="margin-bottom:10px;" class="col-sm-12">
+            To reserve seat {{selectedSeat + 1}}, please enter below information:
+        </div>
+        <div class="input-text row col-sm-12" style="margin-bottom:10px;">
+            <div class="col-sm-5 adjust-column" style="text-align:right;">Your Name:</div>
+            <div class="col-sm-7 adjust-column">
+                <input type="text" ng-model="user.name"/>
+            </div>
+        </div>
+        <div class="input-text row col-sm-12">
+            <div class="col-sm-5 adjust-column"  style="text-align:right;">Your Employee Id:</div>
+            <div class="col-sm-7 adjust-column">
+                <input type="text" ng-model="user.employeeId"/>
+            </div>
+        </div>
+        <div style="margin-top: 15px;text-align: center;" class="col-sm-12">
+            <button class="btn btn-primary" ng-click="submitReservation(user.name, user.employeeId)">Submit</button>
+            <button class="btn">Cancel</button>
         </div>
     </div>
 </div>
