@@ -46,11 +46,12 @@ var Factory = function(Schema,mongoose) {
     };
 
     this.insertReservation = function(req,res) {
+        console.log(req.spotId);
         var time = new this.Reservation({
             date: req.date,
             name: req.name,
             employeeId: req.employeeId,
-            spotId: req.index
+            spotId: req.spotId.toString()
         });
         time.save();
         res.send("successfully insert " + req.name);

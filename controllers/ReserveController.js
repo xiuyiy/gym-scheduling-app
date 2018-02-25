@@ -47,16 +47,17 @@ Created by Ming He on Feb 24, 2018
             } else {
                 $scope.reserveSuc = true;
                 $scope.reserveMessage = "Your just reserved successfully!";
-                $scope.selectedSeat = null;
                 var body = {
                     name: name,
                     employeeId: employeeId,
-                    spotId: $scope.selectedIndex,
+                    spotId: $scope.selectedSeat,
                     date: $scope.formatDate()
                 }
+                console.log(body);
                 $http.post($scope.reservationUrl, body)
                     .then(function(response){
                         $scope.reservations[$scope.selectedSeat] = body;
+                        $scope.selectedSeat = null;
                         alert($scope.reserveMessage);
                     }).catch(function(response){
                         alert(response.data);
@@ -85,6 +86,8 @@ Created by Ming He on Feb 24, 2018
         $scope.selectSeat = function (index) {
             if (!$scope.reservations[index].name) {
                 $scope.selectedSeat = index;
+            } else {
+                //alert("The seat is already occupied!");
             }
         };
 
