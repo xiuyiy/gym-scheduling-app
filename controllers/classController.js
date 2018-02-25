@@ -6,28 +6,28 @@ var classController = function ($scope, $rootScope, $interval, $location) {
             "instructor": "KEVIN",
             "startTime": "7:00 AM",
             "duration": "45 MIN",
-            "color": titleSytle
+            "titleStyle": titleSytle
         },//12
         {
             "title": "TOTAL BODY",
             "instructor": "KEVIN",
             "startTime": "7:00 AM",
             "duration": "45 MIN",
-            "color": titleSytle
+            "titleStyle": titleSytle
         },//13
         {
             "title": "WEIGHT TRAINING",
             "instructor": "KEVIN",
             "startTime": "7:00 AM",
             "duration": "45 MIN",
-            "color": titleSytle
+            "titleStyle": titleSytle
         },//14
         {
             "title": "CORE STRENGTH",
             "instructor": "KEVIN",
             "startTime": "7:00 AM",
             "duration": "45 MIN",
-            "color": titleSytle
+            "titleStyle": titleSytle
         },//15
 
         {
@@ -35,35 +35,35 @@ var classController = function ($scope, $rootScope, $interval, $location) {
             "instructor": "KEVIN",
             "startTime": "12:00 PM",
             "duration": "45 MIN",
-            "color": titleSytle
+            "titleStyle": titleSytle
         },//21
         {
             "title": "VINYASA YOGA",
             "instructor": "YVETTE",
             "startTime": "12:00 PM",
             "duration": "45 MIN",
-            "color": titleSytle
+            "titleStyle": titleSytle
         },//22
         {
             "title": "50/50",
             "instructor": "HEIDI",
             "startTime": "12:00 PM",
             "duration": "45 MIN",
-            "color": titleSytle
+            "titleStyle": titleSytle
         },//23
         {
             "title": "VINYASA YOGA",
             "instructor": "YVETTE",
             "startTime": "12:00 PM",
             "duration": "45 MIN",
-            "color": titleSytle
+            "titleStyle": titleSytle
         },//24
         {
             "title": "TABATA",
             "instructor": "IULIIA",
             "startTime": "12:00 PM",
             "duration": "45 MIN",
-            "color": titleSytle
+            "titleStyle": titleSytle
         },//25
 
         {}, {}, {}, {}, {},//31-35
@@ -76,7 +76,7 @@ var classController = function ($scope, $rootScope, $interval, $location) {
             "startTime": "5:15 PM",
             "duration": "55 MIN",
             "openReservation": 2,
-            "color": titleSytle
+            "titleStyle": titleSytle
         }, //42
         {}, //43
         {
@@ -86,7 +86,7 @@ var classController = function ($scope, $rootScope, $interval, $location) {
             "startTime": "5:15 PM",
             "duration": "55 MIN",
             "openReservation": 4,
-            "color": titleSytle
+            "titleStyle": titleSytle
         }, //44
         {}, //45
         {
@@ -94,28 +94,28 @@ var classController = function ($scope, $rootScope, $interval, $location) {
             "instructor": "IULIIA",
             "startTime": "6:00 PM",
             "duration": "45 MIN",
-            "color": titleSytle
+            "titleStyle": titleSytle
         }, //51
         {
             "title": "SPORTS CONDITIONING",
             "instructor": "IULIIA",
             "startTime": "6:10 PM",
             "duration": "45 MIN",
-            "color": titleSytle
+            "titleStyle": titleSytle
         }, //52
         {
             "title": "HIT BOOT CAMP",
             "instructor": "IULIIA",
             "startTime": "6:00 PM",
             "duration": "45 MIN",
-            "color": titleSytle
+            "titleStyle": titleSytle
         }, //53
         {
             "title": "ZUMBA",
             "instructor": "CHONA",
             "startTime": "6:10 PM",
             "duration": "45 MIN",
-            "color": titleSytle
+            "titleStyle": titleSytle
         }, //54
         {}
     ];
@@ -147,9 +147,9 @@ var classController = function ($scope, $rootScope, $interval, $location) {
 
 
                 if ((value.openReservation === 2 && weekday === 2) || (value.openReservation === 4 && weekday === 6)) {
-                    $scope.classSchedule[key].color = 'lime-title';
+                    $scope.classSchedule[key].titleStyle = 'lime-title';
                 } else {
-                    $scope.classSchedule[key].color = 'black-title';
+                    $scope.classSchedule[key].titleStyle = 'black-title';
                 }
             });
         }
@@ -160,7 +160,7 @@ var classController = function ($scope, $rootScope, $interval, $location) {
 
     $scope.goToReservationPage = function (val) {
 
-        if (val.color === 'lime-title') {
+        if (val.titleStyle === 'lime-title') {
             $location.path('/reserve.html');
         }
     }
