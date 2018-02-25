@@ -35,6 +35,7 @@ Created by Ming He on Feb 24, 2018
                 };
                 $scope.reserveSuc = true;
                 $scope.reserveMessage = "Your just reserved successfully!";
+                $scope.selectedSeat = null;
             }
             alert($scope.reserveMessage);
         };
@@ -52,7 +53,9 @@ Created by Ming He on Feb 24, 2018
         };
 
         $scope.selectSeat = function (index) {
-            $scope.selectedSeat = index - 1;
+            if (!$scope.reservations[index-1].name) {
+                $scope.selectedSeat = index - 1;
+            } 
         };
 
         $scope.generateReservations();
