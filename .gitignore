@@ -1,3 +1,8 @@
 node_modules/*
 .DS_Store
 npm-debug.log
+express-server/node_modules/*
+express-server/*.wt
+express-server/*.bson
+express-server/diagnostic.data
+express-server/journal
