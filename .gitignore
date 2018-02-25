@@ -6,3 +6,5 @@ express-server/*.wt
 express-server/*.bson
 express-server/diagnostic.data
 express-server/journal
+express-server/WiredTiger*
+express-server/mongod.lock

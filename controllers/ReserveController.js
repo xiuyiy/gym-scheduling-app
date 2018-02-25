@@ -7,18 +7,33 @@ Created by Ming He on Feb 24, 2018
     var injectParams = ['$scope', '$rootScope', '$http'];
 
     var reserveController = function ($scope, $rootScope, $http) {
-        var currentDate = new Date();
-        var className = "Barbell";
+        //var currentDate = new Date();
+        //var className = "Barbell";
+        $scope.reservationUrl = "http://mac-mhe2.corp.microstrategy.com:3000/reservations";
 
-        $scope.totalNumber = 20;
 
         $scope.generateReservations = function() {
+            var date = $scope.formatDate();
+            $http.get($scope.reservationUrl + "?date=" + date)
+                .then(function(response){
+                    $scope.oriReservations = response.data;
+                    $scope.renderReservations();
+                }).catch(function(response){
+                    alert("Error!");
+                })
+        };
+        $scope.renderReservations = function() {
+            $scope.totalNumber = 20;
             $scope.reservations = [];
-            for (var i = 0; i < $scope.totalNumber; i++) {
-                $scope.reservations[i] = {
-                    "name": null,
-                    "employeeId": null
-                };
+            for (var i = 1; i < $scope.totalNumber; i++) {
+                var res = $scope.oriReservations.filter(function(element){
+                    return (element.spotId == i);
+                });
+                if (res.length > 0) {
+                    $scope.reservations[i] = res[0];
+                } else {
+                    $scope.reservations[i] = {};
+                }
             }
         };
 
@@ -28,34 +43,49 @@ Created by Ming He on Feb 24, 2018
             })) {
                 $scope.reserveSuc = false;
                 $scope.reserveMessage = "Sorry you've already reserved.";
+                alert($scope.reserveMessage);
             } else {
-                $scope.reservations[$scope.selectedSeat] = {
-                    "name": name,
-                    "employeeId": employeeId
-                };
                 $scope.reserveSuc = true;
                 $scope.reserveMessage = "Your just reserved successfully!";
                 $scope.selectedSeat = null;
+                var body = {
+                    name: name,
+                    employeeId: employeeId,
+                    spotId: $scope.selectedIndex,
+                    date: $scope.formatDate()
+                }
+                $http.post($scope.reservationUrl, body)
+                    .then(function(response){
+                        $scope.reservations[$scope.selectedSeat] = body;
+                        alert($scope.reserveMessage);
+                    }).catch(function(response){
+                        alert(response.data);
+                    });
             }
-            alert($scope.reserveMessage);
         };
 
         $scope.formatDate = function (date) {
-            var d = new Date(date),
-                month = '0' + (d.getMonth() + 1),
-                day = '0' + d.getDate(),
-                year = d.getFullYear();
-
+            if (!date) {
+                var d = new Date(),
+                    month = '0' + (d.getMonth() + 1),
+                    day = '0' + d.getDate(),
+                    year = d.getFullYear();
+            } else {
+                var d = new Date(date),
+                    month = '0' + (d.getMonth() + 1),
+                    day = '0' + d.getDate(),
+                    year = d.getFullYear();
+            }
             month = month.slice(month.length - 2);
             day = day.slice(day.length - 2);
 
-            return [year, month, day].join('-');
+            return [year, month, day].join('');
         };
 
         $scope.selectSeat = function (index) {
-            if (!$scope.reservations[index-1].name) {
-                $scope.selectedSeat = index - 1;
-            } 
+            if (!$scope.reservations[index].name) {
+                $scope.selectedSeat = index;
+            }
         };
 
         $scope.generateReservations();

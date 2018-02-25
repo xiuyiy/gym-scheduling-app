@@ -33,9 +33,9 @@ var Factory = function(Schema,mongoose) {
             date: String,
             name: String,
             employeeId: Number,
-            index: Number
+            spotId: Number
         });
-        ReservationSchema.index({ date: 1, index: 1}, { unique: true });
+        ReservationSchema.index({ date: 1, spotId: 1, employeeId: 1}, { unique: true });
         this.Reservation = mongoose.model('Reservation', ReservationSchema);
     };
 
@@ -45,26 +45,16 @@ var Factory = function(Schema,mongoose) {
         });
     };
 
-    this.insertReservation = function(req) {
+    this.insertReservation = function(req,res) {
         var time = new this.Reservation({
             date: req.date,
             name: req.name,
             employeeId: req.employeeId,
-            index: req.index
+            spotId: req.index
         });
         time.save();
+        res.send("successfully insert " + req.name);
     };
-
-    this.insertSample = function() {
-        var time = new this.Reservation({
-            date: "12345",
-            name: "Ming",
-            employeeId: 11702,
-            index: 2
-        });
-        time.save();
-    };
-
 }
 
 module.exports = Factory;
