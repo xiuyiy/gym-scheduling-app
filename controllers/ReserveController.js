@@ -87,7 +87,6 @@ Created by Ming He on Feb 24, 2018
 
         //index ranging from 0-19
         $scope.selectSeat = function (index) {
-            debugger;
             if (!$scope.reservations[index].name) {
 
                 //selectedSeat ranging from 1-20

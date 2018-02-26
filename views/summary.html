@@ -1,0 +1,7 @@
+Summary
+<div style="text-align:center;padding:20px;width:400px;margin:10px auto;" class="table-responsive-md">
+    <div class="row black-header"><span class="col">Spot #</span><span class="col">Name</span></div>
+    <div ng-repeat="user in reservations track by $index">
+        <div class="row"><span class="col">{{$index +1}} </span> <span class="col">{{user.name}}</span></div>
+    </div>
+</div>
