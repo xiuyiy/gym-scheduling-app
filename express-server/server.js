@@ -17,8 +17,11 @@ mongoose.connect('mongodb://localhost/gym-schedule-1');
 var db = mongoose.connection;
 
 var factory = new Factory(Schema,mongoose);
+//create schemas
 factory.createReservationSchema();
+factory.createUserSchema();
 
+//reservation APIs
 app.get('/ping', function(req, res) {
     res.send({ping:'hello this is server and I am alive!'});
 });
@@ -32,8 +35,26 @@ app.post('/reservations', function(req, res) {
     var resp = factory.insertReservation(req.body, res);
 });
 
-app.listen(3000);
-console.log('Listening on port 3000...');
+
+//user APIs
+app.get('/users', function (req, res) {
+    var resp = factory.getUsers(req.query, res);
+})
+
+app.post('/users', function (req, res) {
+    factory.insertUser(req.body, res);
+    res.send("insert user success");
+
+})
+
+app.put('/users', function (req, res) {
+    var dbResult = factory.activateUser(req, res);
+    res.send("User has been actived!");
+})
+
+
+
+
 
 /*
     Here we are configuring our SMTP Server details.
@@ -52,9 +73,11 @@ var rand,mailOptions,host,link;
 /*------------------Routing Started ------------------------*/
 
 app.get('/send',function(req,res){
-    rand=Math.floor((Math.random() * 100) + 54);
+    // rand=Math.floor((Math.random() * 100) + 54);
+    rand = req.query.id;
     host=req.get('host');
-    link="http://"+req.get('host')+"/verify?id="+rand;
+    //req.id is the user index id
+    link="http://"+req.get('host')+"/verify?id="+req.id;
     mailOptions={
         to : req.query.to,
         subject : "Please confirm your Email account",
@@ -92,3 +115,6 @@ if((req.protocol+"://"+req.get('host')) == ("http://"+host)) {
 });
 
 /*--------------------Routing Over----------------------------*/
+
+app.listen(3000);
+console.log('Listening on port 3000...');
