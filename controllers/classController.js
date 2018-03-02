@@ -141,19 +141,19 @@ var classController = function ($scope, $rootScope, $interval, $location) {
         var weekday = d.getDay();
         var hour = d.getHours();
 
-        if ((weekday == 2 || weekday == 6) && (hour >= 13 && hour <= 24)) {
+        if ((weekday == 2 || weekday == 1) && (hour >= 13 && hour <= 24)) {
 
             angular.forEach($scope.classSchedule, function (value, key) {
 
 
-                if ((value.openReservation === 2 && weekday === 2) || (value.openReservation === 4 && weekday === 6)) {
+                if ((value.openReservation === 2 && weekday === 2) || (value.openReservation === 4 && weekday === 1)) {
                     $scope.classSchedule[key].titleStyle = 'lime-title';
                 } else {
                     $scope.classSchedule[key].titleStyle = 'black-title';
                 }
             });
         }
-    }
+    };
 
     $scope.autoRefresh = $interval($scope.flipColor(), 3000);
     $scope.flipColor();

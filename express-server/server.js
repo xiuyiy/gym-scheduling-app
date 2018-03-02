@@ -3,37 +3,78 @@ var app = express();
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
-var Factory = require("./module.factory.js");
+var reservationFactory = require("./reservation.factory.js");
+var userFactory = require("./user.factory.js");
 var bodyParser = require('body-parser');
 var nodemailer = require("nodemailer");
+var autoIncrement = require('mongoose-auto-increment');
+var randomstring = require("randomstring");
+
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
+    //set CORS headers
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
-mongoose.connect('mongodb://localhost/gym-schedule-1');
-var db = mongoose.connection;
+// mongoose.connect('mongodb://localhost/gym-schedule-1');
+// var db = mongoose.connection;
 
-var factory = new Factory(Schema,mongoose);
-factory.createReservationSchema();
+var connection = mongoose.createConnection('mongodb://localhost/gym-schedule-1');
+autoIncrement.initialize(connection);
 
-app.get('/ping', function(req, res) {
-    res.send({ping:'hello this is server and I am alive!'});
-});
+var reservationFactory = new reservationFactory(Schema, mongoose);
+//create schemas
+reservationFactory.createReservationSchema();
 
+var userFactory = new userFactory(Schema, mongoose, connection, autoIncrement);
+userFactory.createUserSchema();
+
+//reservation APIs
 app.get('/reservations', function(req, res) {
-    var resp = factory.getReservations({date:req.query.date}, res);
+    var resp = reservationFactory.getReservations({date:req.query.date}, res);
 });
 
 app.post('/reservations', function(req, res) {
     console.log(req.body);
-    var resp = factory.insertReservation(req.body, res);
+    var resp = reservationFactory.insertReservation(req.body, res);
 });
 
-app.listen(3000);
-console.log('Listening on port 3000...');
+
+//user APIs
+/**
+ * 1. passing nothing req.query={} will be passed to the db and all users will be returned
+ * 2. passing ?_id=xxxx, user with _id==xxxx will be returned
+ * 3. passing ?email=xxx@email.com, user with email address equals to xxx@email.com will be returned
+ * ...
+ */
+app.get('/users', function (req, res) {
+    userFactory.getUsers(req.query, res);
+})
+
+/**
+ * Create new user and insert it into database, sending out verification email
+ */
+app.post('/users', function (req, res) {
+
+    var verificationCode = randomstring.generate(18);
+    console.log(req);
+    console.log(req.body);
+    console.log(verificationCode);
+    userFactory.insertUser(req.body, res, verificationCode);
+
+    sendVerificationEmail(req, verificationCode, res);
+})
+
+// app.put('/users', function (req, res) {
+//     var dbResult = factory.activateUser(req, res);
+//     res.userFactory("User has been activated!");
+// })
+
+
+
+
 
 /*
     Here we are configuring our SMTP Server details.
@@ -51,44 +92,38 @@ var rand,mailOptions,host,link;
 
 /*------------------Routing Started ------------------------*/
 
-app.get('/send',function(req,res){
-    rand=Math.floor((Math.random() * 100) + 54);
-    host=req.get('host');
-    link="http://"+req.get('host')+"/verify?id="+rand;
-    mailOptions={
-        to : req.query.to,
-        subject : "Please confirm your Email account",
-        html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
-    }
-    console.log(mailOptions);
-    smtpTransport.sendMail(mailOptions, function(error, response){
-     if(error){
-            console.log(error);
-        res.end("error");
-     }else{
-            console.log("Message sent: " + response.message);
-        res.end("sent");
-         }
-     });
-});
 
-app.get('/verify',function(req,res){
+var sendVerificationEmail = function (req, verificationCode, res) {
+    host = req.get('host');
+    link = "http://" + req.get('host') + "/verify?to=" + req.body.email + "&verificationCode=" + verificationCode;
+    mailOptions = {
+        to: req.body.email,
+        subject: "Please confirm your Email account",
+        html: "Hello,<br> Please Click on the link to verify your email.<br><a href=" + link + ">Click here to verify</a>"
+    }
+    smtpTransport.sendMail(mailOptions, function (error, response) {
+        if (error) {
+            console.log(error);
+            res.end("error");
+        } else {
+            console.log("Message sent: " + response.message);
+            res.end("sent");
+        }
+    });
+}
+
+
+app.get('/verify',function(req, res){
 console.log(req.protocol+":/"+req.get('host'));
-if((req.protocol+"://"+req.get('host')) == ("http://"+host)) {
+if((req.protocol+"://"+req.get('host')) == "http://localhost:3000") {
     console.log("Domain is matched. Information is from Authentic email");
-    if(req.query.id==rand)
-    {
-        console.log("email is verified");
-        res.end("<h1>Email "+mailOptions.to+" is been Successfully verified");
-    }
-    else
-    {
-        console.log("email is not verified");
-        res.end("<h1>Bad Request</h1>");
-    }
+    userFactory.activateUser(req.query, res);
 } else {
     res.end("<h1>Request is from unknown source");
 }
 });
 
 /*--------------------Routing Over----------------------------*/
+
+app.listen(3000);
+console.log('Listening on port 3000...');
