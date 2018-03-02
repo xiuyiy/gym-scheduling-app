@@ -1,75 +1,77 @@
-var UserFactory = function(Schema,mongoose,connection, autoIncrement) {
+var userFactory = function (Schema, mongoose, connection, autoIncrement) {
 
     this.Schema = Schema;
     this.mongoose = mongoose;
 
-    this.createUserSchema = function() {
+    //create a schema, each schema maps to a mongodb collection and defines the shape of the documents within that collection
+    this.createUserSchema = function () {
         var UserSchema = new this.Schema({
-            userId: { type: Number },
-            createDate: { type: Date, default: new Date().getTime() },
-            firstName: { type: String, required: true },
-            lastName: { type: String, required: true },
-            email: { type: String, required: true, unique: true },
-            active: { type: Boolean, default: 0 },
-            acceptionCode: { type: String, unique: true, required: true }
+            email: {type: String, unique: true, required: true},
+            firstName: {type: String, required: true},
+            lastName: {type: String, required: true},
+            password: {type: String, required: true},
+            isActive: {type: Boolean, default: false},
+            creationDate: {type: Date, default: Date.now()},
+            activatedDate: {type: Date},
+            isAdmin: {type: Boolean, default: false},
+            verificationCode: { type: String}
         });
+        //create a model
+        // this.User = mongoose.model('User', UserSchema);
         UserSchema.plugin(autoIncrement.plugin, 'User');
+        UserSchema.index({_id:1}, {unique: true});
         this.User = connection.model('User', UserSchema);
-
-        //this.User = UserSchema.plugin(autoIncrement.plugin, { model: 'User', field: 'userId' });
     };
 
-    this.getUser = function(query, res) {
-        if (!query) {
-            query = {};
-        }
-        var self = this;
-        this.User.find(query, function(err, results){
-            if (err) {
-                res.status(404).send("not found");
-            }
-            if (results) {
-                res.json(results);
-            }
+    this.getUsers = function (query, res) {
+        this.User.find(query, function (error, output) {
+            res.json(output);
         });
     };
 
-    this.insertSampleUser = function(req) {
+    this.insertUser = function (requestBody, res, verificationCode) {
+
         var newUser = new this.User({
-            firstName: req.firstName,
-            lastName: req.lastName,
-            email: req.email
+            email: requestBody.email,
+            firstName: requestBody.firstName,
+            lastName: requestBody.lastName,
+            password: requestBody.password,
+            verificationCode: verificationCode
         });
         newUser.save();
     };
 
-    this.insertUser = function(query, randomString) {
-        var newUser = new this.User({
-            firstName: query.firstName,
-            lastName: query.lastName,
-            email: query.email,
-            acceptionCode: randomString
+    this.deleteUser = function (req, res) {
+        this.User.delete(req.query._id, function (error, res) {
+            if(error) return res.send(error);
+            res.send(res);
         });
-        newUser.save();
     };
 
-    this.acceptUser = function(query, res) {
+    this.activateUser = function (req, res) {
+
         var keyword = {
-            email: query.to,
-            acceptionCode: query.emailcode
+            email: req.to,
+            verificationCode: req.verificationCode
         };
+
         console.log(keyword);
-        this.User.findOneAndUpdate(keyword, { $set: { active: 1 }}, {new: true}, function(err, output){
-            if(err){
+        this.User.findOneAndUpdate(keyword, {
+            $set: {
+                isActive: true,
+                activatedDate: Date.now()
+            }
+        }, function (error, result) {
+            if (error) {
                 console.log("email is not verified");
                 res.end("<h1>Bad Request</h1>");
             }
-            if (output) {
+            if (result) {
                 console.log("email is verified");
                 res.end("<h1>Email is verified and now you can login now!</h1>");
             }
-        });
+        })
     };
-}
+};
 
-module.exports = UserFactory;
+module.exports = userFactory;
