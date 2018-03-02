@@ -9,41 +9,19 @@
             lastName: null,
             email: null,
             password: null,
-            userId: null
         };
 
         $scope.backendUrl = "http://localhost:3000/";
         $scope.registerUser = function () {
+            console.log($scope.newUser);
             $http.post($scope.backendUrl + "users", $scope.newUser)
                 .then(function (response) {
-                    getUserId();
+                    alert("user created!");
                 }).catch(function (response) {
                 alert(response.data);
             });
 
         }
-
-        var getUserId = function() {
-            $http.get($scope.backendUrl + "users?email="+ $scope.newUser.email)
-                .then(function (response) {
-                    $scope.newUser.userId = response._id;
-                    sendEmailForRegisteration();
-                }).catch(function (response) {
-                alert(response.data);
-            })
-
-        }
-
-        var sendEmailForRegisteration = function () {
-            $http.get($scope.backendUrl + "send?to=" + $scope.newUser.email + "&id=" + $scope.newUser.userId)
-                .then(function (response) {
-                    alert("Please check your email to verfiy your account!");
-                }).catch(function (response) {
-                alert(response.data);
-            })
-
-        }
-
 
     }
 
