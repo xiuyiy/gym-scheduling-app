@@ -1,8 +1,44 @@
-this is register
-<div style="text-align: center">
-    <div>First Name: <input ng-model="newUser.firstName" type="text" name="firstName"/> </div>
-    <div>Last Name: <input ng-model="newUser.lastName" type="text" name="lastName"></div>
-    <div>Email: <input  ng-model="newUser.email" type="text" name="email"></div>
-    <div>Password: <input ng-model="newUser.password" type="text", name="password"></div>
-    <button class="btn btn-primary" ng-click="registerUser()">Register</button>
+<!--this is register-->
+<!--<div style="text-align: center">-->
+    <!--<div>First Name: <input  type="text" name="firstName"/> </div>-->
+    <!--<div>Last Name: <input ng-model="newUser.lastName" type="text" name="lastName"></div>-->
+    <!--<div>Email: <input  ng-model="newUser.email" type="text" name="email"></div>-->
+    <!--<div>Password: <input ng-model="newUser.password" type="text", name="password"></div>-->
+    <!--<button class="btn btn-primary" ng-click="registerUser()">Register</button>-->
+<!--</div>-->
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Register</h1>
+            <p class="lead">Already a member? Please <button class="btn btn-warning" ng-click="goToLoginPage()">Sign in</button> instead.</p>
+            <div class="alert-success" ng-show="registerSuccess">Please check your email and confirm your registration!</span></div>
+            <form>
+                <div class="form-group">
+                    <label for="firstName">First name</label>
+                    <input type="text" class="form-control" name="lastName" id="firstName"
+                           placeholder="Enter your first name" ng-model="newUser.firstName">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last name</label>
+                    <input type="text" class="form-control" name="lastName" id="lastName"
+                           placeholder="Enter your last name" ng-model="newUser.lastName">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" name="email" id="email"
+                           placeholder="Enter email" ng-model="newUser.email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password" id="password"
+                           placeholder="Password" ng-model="newUser.password">
+                </div>
+
+            </form>
+            <button class="btn btn-primary" ng-click="registerUser()">Register!</button>
+        </div>
+    </div>
+
 </div>
