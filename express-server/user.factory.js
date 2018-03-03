@@ -19,8 +19,9 @@ var userFactory = function (Schema, mongoose, connection, autoIncrement) {
         //create a model
         // this.User = mongoose.model('User', UserSchema);
         UserSchema.plugin(autoIncrement.plugin, 'User');
+        UserSchema.index({_id:1}, {unique: true});
         this.User = connection.model('User', UserSchema);
-    }
+    };
 
     this.getUsers = function (query, res) {
         this.User.find(query, function (error, output) {
@@ -28,24 +29,31 @@ var userFactory = function (Schema, mongoose, connection, autoIncrement) {
         });
     };
 
-    this.insertUser = function (requestBody, res, verificationCode) {
+    this.getUserByEmail = function(keyword) {
+        var query = {
+            "email": keyword
+        };
+        return this.User.find(query).exec();
+    };
+
+    this.insertUser = function (requestBody, res) {
 
         var newUser = new this.User({
             email: requestBody.email,
             firstName: requestBody.firstName,
             lastName: requestBody.lastName,
-            password: requestBody.password,
-            verificationCode: verificationCode
+            password: requestBody.hashPwd,
+            verificationCode: requestBody.verificationCode
         });
         newUser.save();
-    }
+    };
 
     this.deleteUser = function (req, res) {
         this.User.delete(req.query._id, function (error, res) {
             if(error) return res.send(error);
             res.send(res);
-        })
-    }
+        });
+    };
 
     this.activateUser = function (req, res) {
 
@@ -71,7 +79,6 @@ var userFactory = function (Schema, mongoose, connection, autoIncrement) {
             }
         })
     };
-
-}
+};
 
 module.exports = userFactory;
