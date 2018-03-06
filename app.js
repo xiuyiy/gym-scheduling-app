@@ -23,6 +23,15 @@
                     }
                 }
             })
+            .state('countDown', {
+                url: '/countDown',
+                views: {
+                    '': {
+                        templateUrl: 'views/countDown.html',
+                        controller: 'countDownController'
+                    }
+                }
+            })
             .state('class', {
                 url: '/class',
                 views: {
