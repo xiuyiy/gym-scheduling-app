@@ -75,7 +75,9 @@ var userFactory = function (Schema, mongoose, connection, autoIncrement) {
             }
             if (result) {
                 console.log("email is verified");
-                res.end("<h1>Email is verified and now you can login now!</h1>");
+                res.status(302);
+                res.header("Location", "http://localhost:8082/index.html#!/login");
+                res.end();
             }
         })
     };
