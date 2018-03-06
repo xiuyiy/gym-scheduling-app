@@ -10,15 +10,26 @@ var nodemailer = require("nodemailer");
 var autoIncrement = require('mongoose-auto-increment');
 var randomstring = require("randomstring");
 var bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
+
 const saltRounds = 10;
 
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
     //set CORS headers
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 });
+/*
+app.use(function(err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        res.status(401);
+        res.json({
+            "message": err.name + ": " + err.message
+        });
+    }
+});*/
 
 // mongoose.connect('mongodb://localhost/gym-schedule-1');
 // var db = mongoose.connection;
@@ -35,7 +46,9 @@ userFactory.createUserSchema();
 
 //reservation APIs
 app.get('/reservations', function(req, res) {
-    var resp = reservationFactory.getReservations({date:req.query.date}, res);
+    var resp = reservationFactory.getReservations({
+        date: req.query.date
+    }, res);
 });
 
 app.post('/reservations', function(req, res) {
@@ -51,7 +64,7 @@ app.post('/reservations', function(req, res) {
  * 3. passing ?email=xxx@email.com, user with email address equals to xxx@email.com will be returned
  * ...
  */
-app.get('/users', function (req, res) {
+app.get('/users', function(req, res) {
     userFactory.getUsers(req.query, res);
 })
 
@@ -68,7 +81,7 @@ body required
     lastName: String,
 }
 */
-app.post('/users', function (req, res) {
+app.post('/users', function(req, res) {
 
     var verificationCode = randomstring.generate(18);
 
@@ -89,30 +102,30 @@ app.post('/users', function (req, res) {
     sendVerificationEmail(req, res);
 });
 
-app.post('/login', function (req, res) {
+app.post('/login', function(req, res) {
     var query = req.body;
     if (!query || !query.email || !query.password) {
         res.status(400).json("missing parameters");
     }
     var output = userFactory.getUserByEmail(query.email);
-    output.then(function (users) {
+    output.then(function(users) {
         if (!users || users.length == 0) { //user email is not correct
             res.status(401).json("user's email does not exist!");
         } else if (!users[0].isActive) {
             res.status(401).json("user's account has not been activated!");
         } else {
-            bcrypt.compare(query.password, users[0].password, function (err, result) {
+            bcrypt.compare(query.password, users[0].password, function(err, result) {
                 if (err) {
                     res.status(500).json("internal server error");
                 }
                 if (result) {
-                    res.status(200).json("login Successfully!");
-                } else { //password is not matched.
-                    res.status(401).json("user's password is incorrect!");
+                    res.status(200).json("login successfully.");
+                    //var token = userFactory.generateJwt();
+                    //res.status(200).send(token);
                 }
             });
         }
-    }).catch(function (error) {
+    }).catch(function(error) {
         console.log(error);
         res.status(500).json("internal server error");
     });
@@ -142,7 +155,7 @@ var rand, mailOptions, host, link;
 /*------------------Routing Started ------------------------*/
 
 
-var sendVerificationEmail = function (req, res) {
+var sendVerificationEmail = function(req, res) {
     host = req.get('host');
     link = "http://" + req.get('host') + "/verify?to=" + req.body.email + "&verificationCode=" + req.body.verificationCode;
     mailOptions = {
@@ -150,7 +163,7 @@ var sendVerificationEmail = function (req, res) {
         subject: "Please confirm your Email account",
         html: "Hello,<br> Please Click on the link to verify your email.<br><a href=" + link + ">Click here to verify</a>"
     }
-    smtpTransport.sendMail(mailOptions, function (error, response) {
+    smtpTransport.sendMail(mailOptions, function(error, response) {
         if (error) {
             console.log(error);
             res.end("error");
@@ -162,14 +175,14 @@ var sendVerificationEmail = function (req, res) {
 }
 
 
-app.get('/verify',function(req, res){
-console.log(req.protocol+":/"+req.get('host'));
-if((req.protocol+"://"+req.get('host')) == "http://localhost:3000") {
-    console.log("Domain is matched. Information is from Authentic email");
-    userFactory.activateUser(req.query, res);
-} else {
-    res.end("<h1>Request is from unknown source");
-}
+app.get('/verify', function(req, res) {
+    console.log(req.protocol + ":/" + req.get('host'));
+    if ((req.protocol + "://" + req.get('host')) == "http://localhost:3000") {
+        console.log("Domain is matched. Information is from Authentic email");
+        userFactory.activateUser(req.query, res);
+    } else {
+        res.end("<h1>Request is from unknown source");
+    }
 });
 
 

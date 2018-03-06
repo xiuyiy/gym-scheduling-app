@@ -1,7 +1,9 @@
+
 var Factory = function (Schema, mongoose) {
 
     this.Schema = Schema;
     this.mongoose = mongoose;
+    var jwt = require("jsonwebtoken");
 
     this.createReservationSchema = function () {
         var ReservationSchema = new this.Schema({
