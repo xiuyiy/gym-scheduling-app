@@ -1,9 +1,9 @@
-
 (function () {
 
-    var injectParams = ['$scope', '$rootScope', '$http'];
+    var injectParams = ['$scope', '$rootScope', '$http', '$location'];
 
-    var registerController = function ($scope, $rootScope, $http) {
+    var registerController = function ($scope, $rootScope, $http, $location) {
+        console.log("good!!");
         $scope.newUser = {
             firstName: null,
             lastName: null,
@@ -11,17 +11,24 @@
             password: null,
         };
 
+        $scope.registerSuccess = false;
+
         $scope.backendUrl = "http://localhost:3000/";
         $scope.registerUser = function () {
-            console.log($scope.newUser);
             $http.post($scope.backendUrl + "users", $scope.newUser)
                 .then(function (response) {
-                    alert("user created!");
+                    if(response.status === 200) {
+                        $scope.registerSuccess = true;
+                    }
                 }).catch(function (response) {
                 alert(response.data);
             });
 
         }
+
+        $scope.goToLoginPage = function () {
+            $location.path('/login');
+        };
 
     }
 

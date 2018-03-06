@@ -89,29 +89,30 @@ app.post('/users', function (req, res) {
     sendVerificationEmail(req, res);
 });
 
-app.post('/login', function(req, res) {
+app.post('/login', function (req, res) {
     var query = req.body;
-    if (!query || !query.email|| !query.password) {
+    if (!query || !query.email || !query.password) {
         res.status(400).json("missing parameters");
     }
     var output = userFactory.getUserByEmail(query.email);
-    output.then(function(users){
-        console.log(users);
+    output.then(function (users) {
         if (!users || users.length == 0) { //user email is not correct
-            res.status(401).json("user email or password is not correct.");
+            res.status(401).json("user's email does not exist!");
+        } else if (!users[0].isActive) {
+            res.status(401).json("user's account has not been activated!");
         } else {
-            bcrypt.compare(query.password, users[0].password, function(err, result) {
+            bcrypt.compre(query.password, users[0].password, function (err, result) {
                 if (err) {
                     res.status(500).json("internal server error");
                 }
                 if (result) {
                     res.status(200).json("login Successfully!");
                 } else { //password is not matched.
-                    res.status(401).json("user email or password is not correct.");
+                    res.status(401).json("user's password is incorrect!");
                 }
             });
         }
-    }).catch(function(error){
+    }).catch(function (error) {
         console.log(error);
         res.status(500).json("internal server error");
     });

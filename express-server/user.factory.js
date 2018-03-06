@@ -62,7 +62,6 @@ var userFactory = function (Schema, mongoose, connection, autoIncrement) {
             verificationCode: req.verificationCode
         };
 
-        console.log(keyword);
         this.User.findOneAndUpdate(keyword, {
             $set: {
                 isActive: true,
