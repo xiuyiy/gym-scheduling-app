@@ -31,7 +31,7 @@ var Factory = function (Schema, mongoose) {
     };
     this.deleteReservation = function (query, res) {
         this.Reservation.delete(query, fun)
-    }
+    };
 
 
 }

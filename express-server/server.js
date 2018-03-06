@@ -101,7 +101,7 @@ app.post('/login', function (req, res) {
         } else if (!users[0].isActive) {
             res.status(401).json("user's account has not been activated!");
         } else {
-            bcrypt.compre(query.password, users[0].password, function (err, result) {
+            bcrypt.compare(query.password, users[0].password, function (err, result) {
                 if (err) {
                     res.status(500).json("internal server error");
                 }
