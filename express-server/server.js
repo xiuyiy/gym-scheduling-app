@@ -25,7 +25,7 @@ app.use(function(req, res, next) {
 var connection = mongoose.createConnection('mongodb://localhost/gym-schedule-1');
 autoIncrement.initialize(connection);
 
-var reservationFactory = new reservationFactory(Schema, mongoose);
+var reservationFactory = new reservationFactory(Schema, mongoose, connection, autoIncrement);
 //create schemas
 reservationFactory.createReservationSchema();
 reservationFactory.insertReservation({date:'20180308',name:'minghe',employeeId:11702, spotId:3});
@@ -150,11 +150,20 @@ app.post('/login', function(req, res) {
 //     res.userFactory("User has been activated!");
 // })
 
+var smtpTransport = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+        user: "mstr.noreply@gmail.com",
+        pass: "mstr123456"
+    }
+});
+var rand, mailOptions, host, link;
 
 
 var sendVerificationEmail = function(req, res) {
     host = req.get('host');
     link = "http://" + req.get('host') + "/verify?to=" + req.body.email + "&verificationCode=" + req.body.verificationCode;
+    console.log(link);
     mailOptions = {
         to: req.body.email,
         subject: "Please confirm your Email account",

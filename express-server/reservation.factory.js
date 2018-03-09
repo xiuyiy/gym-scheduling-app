@@ -1,4 +1,4 @@
-var Factory = function(Schema, mongoose) {
+var Factory = function(Schema, mongoose, connection, autoIncrement) {
 
     this.Schema = Schema;
     this.mongoose = mongoose;
@@ -11,6 +11,7 @@ var Factory = function(Schema, mongoose) {
             employeeId: Number,
             spotId: Number
         });
+        ReservationSchema.plugin(autoIncrement.plugin, 'Reservation');
         ReservationSchema.index({
             date: 1,
             spotId: 1,
@@ -18,7 +19,7 @@ var Factory = function(Schema, mongoose) {
         }, {
             unique: true
         });
-        this.Reservation = mongoose.model('Reservation', ReservationSchema);
+        this.Reservation = connection.model('Reservation', ReservationSchema);
     };
 
     this.getReservations = function(query, res) {
