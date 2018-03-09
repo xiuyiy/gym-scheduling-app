@@ -21,18 +21,6 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-/*
-app.use(function(err, req, res, next) {
-    if (err.name === 'UnauthorizedError') {
-        res.status(401);
-        res.json({
-            "message": err.name + ": " + err.message
-        });
-    }
-});*/
-
-// mongoose.connect('mongodb://localhost/gym-schedule-1');
-// var db = mongoose.connection;
 
 var connection = mongoose.createConnection('mongodb://localhost/gym-schedule-1');
 autoIncrement.initialize(connection);
@@ -40,15 +28,33 @@ autoIncrement.initialize(connection);
 var reservationFactory = new reservationFactory(Schema, mongoose);
 //create schemas
 reservationFactory.createReservationSchema();
+reservationFactory.insertReservation({date:'20180308',name:'minghe',employeeId:11702, spotId:3});
 
 var userFactory = new userFactory(Schema, mongoose, connection, autoIncrement);
 userFactory.createUserSchema();
 
 //reservation APIs
 app.get('/reservations', function(req, res) {
-    var resp = reservationFactory.getReservations({
-        date: req.query.date
-    }, res);
+    var jwttoken = req.header("token");
+     // console.log(req.header);
+    var decodedToken = jwt.verify(jwttoken, '10086', function(err, result){
+        if (err) {
+            res.status(403).json(err);
+        }
+        if (result) {
+            console.log(result);
+            var exp = result.exp;
+            var currentTime = new Date().getTime();
+            if (currentTime > exp + "000") {
+                res.status(403).json("session expired.");
+            } else {
+                console.log(req.query.date);
+                var resp = reservationFactory.getReservations({
+                    date: req.query.date
+                }, res);
+            }
+        }
+    });
 });
 
 app.post('/reservations', function(req, res) {
@@ -111,6 +117,8 @@ app.post('/login', function(req, res) {
     output.then(function(users) {
         if (!users || users.length == 0) { //user email is not correct
             res.status(401).json("user's email does not exist!");
+        } else if (users.length > 1) {
+            res.status(500).json("internal server error");
         } else if (!users[0].isActive) {
             res.status(401).json("user's account has not been activated!");
         } else {
@@ -119,9 +127,15 @@ app.post('/login', function(req, res) {
                     res.status(500).json("internal server error");
                 }
                 if (result) {
-                    res.status(200).json("login successfully.");
-                    //var token = userFactory.generateJwt();
-                    //res.status(200).send(token);
+                    //res.status(200).json("login successfully.");
+                    var token = userFactory.generateJwt();
+                    var responseBody = {
+                        token: token,
+                        email: users[0].email,
+                        firstName: users[0].firstName,
+                        lastName: users[0].lastName
+                    };
+                    res.status(200).send(responseBody);
                 }
             });
         }
@@ -136,23 +150,6 @@ app.post('/login', function(req, res) {
 //     res.userFactory("User has been activated!");
 // })
 
-
-
-/*
-    Here we are configuring our SMTP Server details.
-    STMP is mail server which is responsible for sending and recieving email.
-*/
-var smtpTransport = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-        user: "mstr.noreply@gmail.com",
-        pass: "mstr123456"
-    }
-});
-var rand, mailOptions, host, link;
-/*------------------SMTP Over-----------------------------*/
-
-/*------------------Routing Started ------------------------*/
 
 
 var sendVerificationEmail = function(req, res) {
