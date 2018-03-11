@@ -1,8 +1,7 @@
-var Factory = function(Schema, mongoose, connection, autoIncrement) {
+var Factory = function(Schema, mongoose, connection, autoIncrement, jwtInfo) {
 
     this.Schema = Schema;
     this.mongoose = mongoose;
-    var jwt = require("jsonwebtoken");
 
     this.createReservationSchema = function() {
         var ReservationSchema = new this.Schema({
@@ -51,11 +50,11 @@ var Factory = function(Schema, mongoose, connection, autoIncrement) {
         var expiry = new Date();
         expiry.setDate(expiry.getDate() + 7);
 
-        return jwt.sign({
+        return jwtInfo.module.sign({
             email: this.email,
             name: this.name,
             exp: parseInt(expiry.getTime() / 1000),
-        }, "10086"); // DO NOT KEEP YOUR SECRET IN THE CODE!
+        }, jwtInfo.key); // DO NOT KEEP YOUR SECRET IN THE CODE!
     };
 }
 

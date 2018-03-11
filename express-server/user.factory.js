@@ -1,8 +1,7 @@
-var userFactory = function(Schema, mongoose, connection, autoIncrement) {
+var userFactory = function(Schema, mongoose, connection, autoIncrement, jwtInfo) {
 
     this.Schema = Schema;
     this.mongoose = mongoose;
-    var jwt = require("jsonwebtoken");
 
     //create a schema, each schema maps to a mongodb collection and defines the shape of the documents within that collection
     this.createUserSchema = function() {
@@ -118,12 +117,12 @@ var userFactory = function(Schema, mongoose, connection, autoIncrement) {
     this.generateJwt = function() {
         var expiry = Math.floor(Date.now() / 1000) + (60 * 60);
 
-        return jwt.sign({
+        return jwtInfo.module.sign({
             _id: this._id,
             email: this.email,
             name: this.name,
             exp: expiry,
-        }, "10086"); // DO NOT KEEP YOUR SECRET IN THE CODE!
+        }, jwtInfo.key); // DO NOT KEEP YOUR SECRET IN THE CODE!
     };
 };
 

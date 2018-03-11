@@ -1,3 +1,7 @@
+/**
+ * Import node modules
+ * @type {*|createApplication}
+ */
 var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
@@ -12,7 +16,17 @@ var randomstring = require("randomstring");
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
+/**
+ * Constant variables
+ */
+
 const saltRounds = 10;
+const jwtKey = '10086';
+
+var jwtInfo = {
+    key: jwtKey,
+    module: jwt
+}
 
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
@@ -25,19 +39,21 @@ app.use(function(req, res, next) {
 var connection = mongoose.createConnection('mongodb://localhost/gym-schedule-1');
 autoIncrement.initialize(connection);
 
-var reservationFactory = new reservationFactory(Schema, mongoose, connection, autoIncrement);
+var reservationFactory = new reservationFactory(Schema, mongoose, connection, autoIncrement, jwtInfo);
 //create schemas
 reservationFactory.createReservationSchema();
 reservationFactory.insertReservation({date:'20180308',name:'minghe',employeeId:11702, spotId:3});
 
-var userFactory = new userFactory(Schema, mongoose, connection, autoIncrement);
+var userFactory = new userFactory(Schema, mongoose, connection, autoIncrement, jwtInfo);
 userFactory.createUserSchema();
 
-//reservation APIs
+/**
+ * reservation APIs
+ */
 app.get('/reservations', function(req, res) {
     var jwttoken = req.header("token");
      // console.log(req.header);
-    var decodedToken = jwt.verify(jwttoken, '10086', function(err, result){
+    var decodedToken = jwt.verify(jwttoken, jwtKey, function(err, result){
         if (err) {
             res.status(403).json(err);
         }
