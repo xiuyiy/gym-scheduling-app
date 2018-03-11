@@ -6,15 +6,15 @@ var Factory = function(Schema, mongoose, connection, autoIncrement, jwtInfo) {
     this.createReservationSchema = function() {
         var ReservationSchema = new this.Schema({
             date: String,
-            name: String,
-            employeeId: Number,
+            classId: String,
+            userId: Number,
             spotId: Number
         });
         ReservationSchema.plugin(autoIncrement.plugin, 'Reservation');
         ReservationSchema.index({
             date: 1,
             spotId: 1,
-            employeeId: 1
+            userId: 1
         }, {
             unique: true
         });
@@ -34,9 +34,9 @@ var Factory = function(Schema, mongoose, connection, autoIncrement, jwtInfo) {
 
     this.insertReservation = function(req) {
         var reservation = new this.Reservation({
-            date: req.date,
+            date: jwtInfo.getDayFromDate,
             name: req.name,
-            employeeId: req.employeeId,
+            userId: req.userId,
             spotId: req.spotId
         });
         console.log(reservation);

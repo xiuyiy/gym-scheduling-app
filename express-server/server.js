@@ -9,6 +9,7 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 var reservationFactory = require("./reservation.factory.js");
 var userFactory = require("./user.factory.js");
+var jwtService = require("./jwt.service.js");
 var bodyParser = require('body-parser');
 var nodemailer = require("nodemailer");
 var autoIncrement = require('mongoose-auto-increment');
@@ -22,10 +23,22 @@ var jwt = require('jsonwebtoken');
 
 const saltRounds = 10;
 const jwtKey = '10086';
+var getDayFromDate = function () {
+    var d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 
 var jwtInfo = {
     key: jwtKey,
-    module: jwt
+    module: jwt,
+    getDayFromDate: getDayFromDate()
 }
 
 app.use(bodyParser.json());
@@ -42,35 +55,28 @@ autoIncrement.initialize(connection);
 var reservationFactory = new reservationFactory(Schema, mongoose, connection, autoIncrement, jwtInfo);
 //create schemas
 reservationFactory.createReservationSchema();
-reservationFactory.insertReservation({date:'20180308',name:'minghe',employeeId:11702, spotId:3});
+reservationFactory.insertReservation({name:'minghe2',userId:11702, spotId:3});
 
 var userFactory = new userFactory(Schema, mongoose, connection, autoIncrement, jwtInfo);
 userFactory.createUserSchema();
 
+var jwtService = new jwtService(jwtInfo);
+
+
+
+
 /**
  * reservation APIs
  */
+//get today's reservation
 app.get('/reservations', function(req, res) {
-    var jwttoken = req.header("token");
-     // console.log(req.header);
-    var decodedToken = jwt.verify(jwttoken, jwtKey, function(err, result){
-        if (err) {
-            res.status(403).json(err);
-        }
-        if (result) {
-            console.log(result);
-            var exp = result.exp;
-            var currentTime = new Date().getTime();
-            if (currentTime > exp + "000") {
-                res.status(403).json("session expired.");
-            } else {
-                console.log(req.query.date);
-                var resp = reservationFactory.getReservations({
-                    date: req.query.date
-                }, res);
-            }
-        }
-    });
+
+    jwtService.validateJwt(req, res);
+
+    var resp = reservationFactory.getReservations({
+        date: getDayFromDate()
+    }, res);
+    // userFactory.getUsers({}, res);
 });
 
 app.post('/reservations', function(req, res) {
@@ -147,9 +153,10 @@ app.post('/login', function(req, res) {
                     var token = userFactory.generateJwt();
                     var responseBody = {
                         token: token,
+                        userId: users[0]._id,
                         email: users[0].email,
                         firstName: users[0].firstName,
-                        lastName: users[0].lastName
+                        lastName: users[0].lastName,
                     };
                     res.status(200).send(responseBody);
                 }

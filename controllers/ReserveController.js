@@ -41,7 +41,7 @@ Created by Ming He on Feb 24, 2018
 
         $scope.submitReservation = function(name, employeeId) {
             if ($scope.reservations.some(function(element){
-                return (element.employeeId === employeeId);
+                return (element.userId === employeeId);
             })) {
                 $scope.reserveSuc = false;
                 $scope.reserveMessage = "Sorry you've already reserved.";
