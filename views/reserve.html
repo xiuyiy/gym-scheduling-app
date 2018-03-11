@@ -12,7 +12,7 @@
                     <div style="width:360px;float:left;">
                         <!--display $index+1 but actually click on $index-->
                         <div ng-repeat="res in reservations track by $index" class="seats"
-                            ng-class="res.name&&res.employeeId?'occupied':''"
+                            ng-class="res.name&&res.userId?'occupied':''"
                             ng-click="selectSeat($index)">
                             {{$index+1}}
                         </div>
@@ -38,11 +38,11 @@
         <div class="input-text row col-sm-12">
             <div class="col-sm-5 adjust-column"  style="text-align:right;">Your Employee Id:</div>
             <div class="col-sm-7 adjust-column">
-                <input type="text" ng-model="user.employeeId"/>
+                <input type="text" ng-model="user.userId"/>
             </div>
         </div>
         <div style="margin-top: 15px;text-align: center;" class="col-sm-12">
-            <button class="btn btn-primary" ng-click="submitReservation(user.name, user.employeeId)">Submit</button>
+            <button class="btn btn-primary" ng-click="submitReservation(user.name, user.userId)">Submit</button>
             <button class="btn">Cancel</button>
         </div>
     </div>
