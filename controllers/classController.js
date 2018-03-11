@@ -1,5 +1,9 @@
-var classController = function ($scope, $rootScope, $interval, $location) {
+var classController = function ($scope, $rootScope, $interval, $location, $window) {
+
+
     var titleSytle = 'black-title';
+
+    $scope.firstName = (JSON.parse($window.localStorage.getItem("authInfo"))).firstName;
     $scope.classSchedule = [{},//11
         {
             "title": "WEIGHT TRAINING",
@@ -141,18 +145,20 @@ var classController = function ($scope, $rootScope, $interval, $location) {
         var weekday = d.getDay();
         var hour = d.getHours();
 
-        if ((weekday == 2 || weekday == 1) && (hour >= 13 && hour <= 24)) {
+        // if ((weekday == 2 || weekday == 1) && (hour >= 13 && hour <= 24)) {
 
-            angular.forEach($scope.classSchedule, function (value, key) {
+        angular.forEach($scope.classSchedule, function (value, key) {
 
 
-                if ((value.openReservation === 2 && weekday === 2) || (value.openReservation === 4 && weekday === 1)) {
-                    $scope.classSchedule[key].titleStyle = 'lime-title';
-                } else {
-                    $scope.classSchedule[key].titleStyle = 'black-title';
-                }
-            });
-        }
+            // if ((value.openReservation === 2 && weekday === 2) || (value.openReservation === 4 && weekday === 1)) {
+            if ((value.openReservation === 2) || (value.openReservation === 4)) {
+
+                $scope.classSchedule[key].titleStyle = 'lime-title';
+            } else {
+                $scope.classSchedule[key].titleStyle = 'black-title';
+            }
+        });
+        // }
     };
 
     $scope.autoRefresh = $interval($scope.flipColor(), 3000);
@@ -161,7 +167,7 @@ var classController = function ($scope, $rootScope, $interval, $location) {
     $scope.goToReservationPage = function (val) {
 
         if (val.titleStyle === 'lime-title') {
-            $location.path('/reserve.html');
+            $location.path('/reserve');
         }
     }
 }

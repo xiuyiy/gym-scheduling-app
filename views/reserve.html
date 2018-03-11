@@ -12,7 +12,7 @@
                     <div style="width:360px;float:left;">
                         <!--display $index+1 but actually click on $index-->
                         <div ng-repeat="res in reservations track by $index" class="seats"
-                            ng-class="res.name&&res.userId?'occupied':''"
+                            ng-class="res.userId?'occupied':''"
                             ng-click="selectSeat($index)">
                             {{$index+1}}
                         </div>

@@ -4,21 +4,29 @@ Created by Ming He on Feb 24, 2018
 
 (function () {
 
-    var injectParams = ['$scope', '$rootScope', '$http'];
+    var injectParams = ['$scope', '$rootScope', '$http', '$window'];
 
-    var reserveController = function ($scope, $rootScope, $http) {
+    var reserveController = function ($scope, $rootScope, $http, $window) {
         //var currentDate = new Date();
         //var className = "Barbell";
         // $scope.reservationUrl = "http://mac-mhe2.corp.microstrategy.com:3000/reservations";
+        console.log("yes!! we are good here");
         $scope.reservationUrl = "http://localhost:3000/reservations";
+
+
+        $scope.authInfo = JSON.parse($window.localStorage.getItem("authInfo"));
+
+        // $httpProvide.defaults.headers.common = {'token': $scope.authInfo.token};
 
 
         $scope.generateReservations = function() {
             var date = $scope.formatDate();
-            $http.get($scope.reservationUrl + "?date=" + date)
+            console.log(date);
+            $http.get($scope.reservationUrl + "?date=" + date,{
+                headers: {'X-AuthToken': $scope.authInfo.token}
+            })
                 .then(function(response){
                     $scope.oriReservations = response.data;
-                    debugger;
                     $scope.renderReservations();
                 }).catch(function(response){
                     alert("Error!");
@@ -82,7 +90,7 @@ Created by Ming He on Feb 24, 2018
             month = month.slice(month.length - 2);
             day = day.slice(day.length - 2);
 
-            return [year, month, day].join('');
+            return [year, month, day].join('-');
         };
 
         //index ranging from 0-19
