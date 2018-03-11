@@ -1,68 +1,69 @@
-var Factory = function(Schema, mongoose, connection, autoIncrement, jwtInfo) {
+var Factory = function (Schema, mongoose, connection, autoIncrement, jwtInfo) {
 
     this.Schema = Schema;
     this.mongoose = mongoose;
 
-    this.createReservationSchema = function() {
+    this.createReservationSchema = function () {
         var ReservationSchema = new this.Schema({
-            date: String,
-            classId: Number,
-            userId: Number,
-            spotId: Number
+            date: {
+                type: String
+            },
+            classId: {
+                type: Number
+            },
+            userId: {
+                type: Number
+            },
+            spotId: {
+                type: Number
+            }
         });
         ReservationSchema.plugin(autoIncrement.plugin, 'Reservation');
         ReservationSchema.index({
-            date: 1,
-            spotId: 1,
-            userId: 1
+            // date: 1,
+            // spotId: 1,
+            // userId: 1
+            _id: 1
         }, {
             unique: true
         });
         this.Reservation = connection.model('Reservation', ReservationSchema);
     };
 
-    this.getReservations = function(query, res) {
-        this.Reservation.find(query, function(error, output) {
+    this.getReservations = function (query, res) {
+        this.Reservation.find(query, function (error, output) {
             if (error) {
                 res.status(404).json("not found");
             }
-            if(output) {
+            if (output) {
                 res.json(output);
             }
         });
     };
 
-    this.insertReservation = function(req, res) {
+    this.insertReservation = function (req) {
         var reservation = new this.Reservation({
             date: jwtInfo.getDayFromDate,
             classId: req.classId,
             userId: req.userId,
             spotId: req.spotId
         });
-        reservation.save( function (error, output) {
-            if (error) {
-                res.status(500).json("user creation failed!");
-            }
 
-            if (output) {
-                res.status(204);
-            }
-
-        });
-
+       reservation.save();
     };
-    this.deleteReservation = function(query, res) {
+
+    this.deleteReservation = function (query, res) {
         this.Reservation.findOneAndRemove(query, function (error, output) {
-            if(error) {
+            if (error) {
                 res.status(500).json("deletion failed");
             }
-            if(output) {
+            if (output) {
                 res.status(204);
             }
         })
     };
 
-    this.generateJwt = function() {
+    this.generateJwt = function () {
         var expiry = new Date();
         expiry.setDate(expiry.getDate() + 7);
 

@@ -1,8 +1,8 @@
 (function () {
 
-    var injectParams = ['$scope', '$rootScope', '$location', '$http'];
+    var injectParams = ['$scope', '$rootScope', '$location', '$http', '$window'];
 
-    var loginController = function ($scope, $rootScope, $location, $http) {
+    var loginController = function ($scope, $rootScope, $location, $http, $window) {
 
         $scope.currentUser = {
             email: null,
@@ -14,18 +14,22 @@
         $scope.backendUrl = "http://localhost:3000/";
 
         $scope.login = function () {
-            debugger;
             $http.post($scope.backendUrl + "login", $scope.currentUser)
                 .then(function (res) {
-                    debugger;
-                    alert("login success!");
-                }).catch(function (error) {
+                    $window.localStorage.setItem("authInfo",JSON.stringify(res.data));
+                    // var backend = JSON.parse($window.localStorage.getItem("authInfo"));
+                    $scope.getToClassPage();
+                    }).catch(function (error) {
                 $scope.loginError = error.data;
             });
         }
 
-        $scope.goToReservationPage = function () {
+        $scope.goToRegisterPage = function () {
             $location.path('/register');
+        }
+
+        $scope.getToClassPage = function () {
+            $location.path('/class');
         }
     }
 

@@ -45,7 +45,7 @@ app.use(bodyParser.json());
 app.use(function(req, res, next) {
     //set CORS headers
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-AuthToken");
     next();
 });
 
@@ -75,14 +75,15 @@ app.get('/reservations', function(req, res) {
     jwtService.validateJwt(req, res);
 
     var resp = reservationFactory.getReservations(req.query, res);
-    // userFactory.getUsers({}, res);
 });
 
 app.post('/reservations', function(req, res) {
 
     console.log(req.body);
-    jwtService.validateJwt(req, res);
-    var resp = reservationFactory.insertReservation(req.body, res);
+    // jwtService.validateJwt(req, res);
+        var resp = reservationFactory.insertReservation(req.body);
+        res.status(204);
+
 });
 
 app.delete('/reservations', function (req, res) {

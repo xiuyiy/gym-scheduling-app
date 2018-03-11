@@ -1,6 +1,6 @@
 var jwtService = function (jwtInfo) {
     this.validateJwt = function (req, res) {
-        var jwtToken = req.header("token");
+        var jwtToken = req.header("X-AuthToken");
         var decodedToken = jwtInfo.module.verify(jwtToken, jwtInfo.key, function (err, result) {
             if (err) {
                 res.status(403).json(err);
