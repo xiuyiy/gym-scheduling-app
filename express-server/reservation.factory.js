@@ -6,7 +6,7 @@ var Factory = function(Schema, mongoose, connection, autoIncrement, jwtInfo) {
     this.createReservationSchema = function() {
         var ReservationSchema = new this.Schema({
             date: String,
-            classId: String,
+            classId: Number,
             userId: Number,
             spotId: Number
         });
@@ -32,18 +32,34 @@ var Factory = function(Schema, mongoose, connection, autoIncrement, jwtInfo) {
         });
     };
 
-    this.insertReservation = function(req) {
+    this.insertReservation = function(req, res) {
         var reservation = new this.Reservation({
             date: jwtInfo.getDayFromDate,
-            name: req.name,
+            classId: req.classId,
             userId: req.userId,
             spotId: req.spotId
         });
-        console.log(reservation);
-        reservation.save();
+        reservation.save( function (error, output) {
+            if (error) {
+                res.status(500).json("user creation failed!");
+            }
+
+            if (output) {
+                res.status(204);
+            }
+
+        });
+
     };
     this.deleteReservation = function(query, res) {
-        this.Reservation.delete(query, fun)
+        this.Reservation.findOneAndRemove(query, function (error, output) {
+            if(error) {
+                res.status(500).json("deletion failed");
+            }
+            if(output) {
+                res.status(204);
+            }
+        })
     };
 
     this.generateJwt = function() {

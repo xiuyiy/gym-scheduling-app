@@ -55,7 +55,7 @@ autoIncrement.initialize(connection);
 var reservationFactory = new reservationFactory(Schema, mongoose, connection, autoIncrement, jwtInfo);
 //create schemas
 reservationFactory.createReservationSchema();
-reservationFactory.insertReservation({name:'minghe2',userId:11702, spotId:3});
+// reservationFactory.insertReservation({name:'minghe2',userId:11702, spotId:3});
 
 var userFactory = new userFactory(Schema, mongoose, connection, autoIncrement, jwtInfo);
 userFactory.createUserSchema();
@@ -68,21 +68,29 @@ var jwtService = new jwtService(jwtInfo);
 /**
  * reservation APIs
  */
-//get today's reservation
+//http://localhost:3000/reservations?date=2018-03-10 --> get reservations given a day
+//http://localhost:3000/reservations --> get all reservations
 app.get('/reservations', function(req, res) {
 
     jwtService.validateJwt(req, res);
 
-    var resp = reservationFactory.getReservations({
-        date: getDayFromDate()
-    }, res);
+    var resp = reservationFactory.getReservations(req.query, res);
     // userFactory.getUsers({}, res);
 });
 
 app.post('/reservations', function(req, res) {
+
     console.log(req.body);
+    jwtService.validateJwt(req, res);
     var resp = reservationFactory.insertReservation(req.body, res);
 });
+
+app.delete('/reservations', function (req, res) {
+
+    console.log(req.query);
+    jwtService.validateJwt(req, res);
+    var resp = reservationFactory.deleteReservation(req.query, res);
+})
 
 
 //user APIs
@@ -93,6 +101,10 @@ app.post('/reservations', function(req, res) {
  * ...
  */
 app.get('/users', function(req, res) {
+
+    //verify jwt
+    jwtService.validateJwt(req, res);
+
     userFactory.getUsers(req.query, res);
 })
 
