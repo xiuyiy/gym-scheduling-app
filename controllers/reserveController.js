@@ -4,33 +4,82 @@ Created by Ming He on Feb 24, 2018
 
 (function () {
 
-    var injectParams = ['$scope', '$rootScope', '$http', '$window'];
+    var injectParams = ['$scope', '$rootScope', '$http', '$window', '$location'];
 
-    var reserveController = function ($scope, $rootScope, $http, $window) {
+    var reserveController = function ($scope, $rootScope, $http, $window, $location) {
         //var currentDate = new Date();
         //var className = "Barbell";
         // $scope.reservationUrl = "http://mac-mhe2.corp.microstrategy.com:3000/reservations";
-        console.log("yes!! we are good here");
         $scope.reservationUrl = "http://localhost:3000/reservations";
 
 
         $scope.authInfo = JSON.parse($window.localStorage.getItem("authInfo"));
 
+        $scope.formatDate = function (date) {
+            if (!date) {
+                var d = new Date(),
+                    month = '0' + (d.getMonth() + 1),
+                    day = '0' + d.getDate(),
+                    year = d.getFullYear();
+            } else {
+                var d = new Date(date),
+                    month = '0' + (d.getMonth() + 1),
+                    day = '0' + d.getDate(),
+                    year = d.getFullYear();
+            }
+            month = month.slice(month.length - 2);
+            day = day.slice(day.length - 2);
+
+            return [year, month, day].join('-');
+        };
+
+        $scope.today = $scope.formatDate();
+
+
+
         // $httpProvide.defaults.headers.common = {'token': $scope.authInfo.token};
 
+        $scope.getCurrentUserReservations = function () {
 
-        $scope.generateReservations = function() {
-            var date = $scope.formatDate();
-            console.log(date);
-            $http.get($scope.reservationUrl + "?date=" + date,{
+            $scope.myReservation = {
+                className: "Barbell Strength",
+                classTime: $scope.today,
+                enrolled: false, //default to false
+                instructor: "Iuliia"
+            }
+
+            $http.get($scope.reservationUrl + "?date=" + $scope.today + "&userId=" + $scope.authInfo.userId, {
                 headers: {'X-AuthToken': $scope.authInfo.token}
             })
-                .then(function(response){
+                .then(function (response) {
+                    if (response.data.length > 0) {
+                        debugger;
+                        $scope.myReservation.spotId = response.data[0].spotId;
+                        $scope.myReservation.enrolled = true;
+                    }
+                }).catch(function (error) {
+                if (error.status === 403) {
+                    $location.path('/login');
+                }
+            });
+        }
+
+        $scope.getCurrentUserReservations();
+
+
+        $scope.generateReservations = function () {
+            $http.get($scope.reservationUrl + "?date=" + $scope.today, {
+                headers: {'X-AuthToken': $scope.authInfo.token}
+            })
+                .then(function (response) {
                     $scope.oriReservations = response.data;
+                    debugger;
                     $scope.renderReservations();
-                }).catch(function(response){
-                    alert("Error!");
-                })
+                }).catch(function (error) {
+                if (error.status === 403) {
+                    $location.path('/login');
+                }
+            })
         };
         $scope.renderReservations = function() {
             $scope.totalNumber = 20;
@@ -46,6 +95,28 @@ Created by Ming He on Feb 24, 2018
                 }
             }
         };
+
+        $scope.cancelReservation = function () {
+            debugger;
+            $http({
+                method: 'DELETE',
+                url: $scope.reservationUrl + "?date=" + $scope.today + "&userId=" + $scope.authInfo.userId,
+                headers: {
+                    'X-AuthToken': $scope.authInfo.token
+                }
+            })
+                .then(function (response) {
+                    if (response) {
+                        debugger;
+                        $scope.myReservation.spotId = -1;
+                        $scope.myReservation.enrolled = false;
+                    }
+                }).catch(function (error) {
+                if (error.status === 403) {
+                    $location.path('/login');
+                }
+            });
+        }
 
         $scope.submitReservation = function(name, employeeId) {
             if ($scope.reservations.some(function(element){
@@ -75,23 +146,7 @@ Created by Ming He on Feb 24, 2018
             }
         };
 
-        $scope.formatDate = function (date) {
-            if (!date) {
-                var d = new Date(),
-                    month = '0' + (d.getMonth() + 1),
-                    day = '0' + d.getDate(),
-                    year = d.getFullYear();
-            } else {
-                var d = new Date(date),
-                    month = '0' + (d.getMonth() + 1),
-                    day = '0' + d.getDate(),
-                    year = d.getFullYear();
-            }
-            month = month.slice(month.length - 2);
-            day = day.slice(day.length - 2);
 
-            return [year, month, day].join('-');
-        };
 
         //index ranging from 0-19
         $scope.selectSeat = function (index) {

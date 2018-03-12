@@ -88,6 +88,7 @@ app.post('/reservations', function(req, res) {
 
 app.delete('/reservations', function (req, res) {
 
+    console.log("This is delete");
     console.log(req.query);
     jwtService.validateJwt(req, res);
     var resp = reservationFactory.deleteReservation(req.query, res);

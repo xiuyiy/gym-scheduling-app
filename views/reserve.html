@@ -12,8 +12,8 @@
                     <div style="width:360px;float:left;">
                         <!--display $index+1 but actually click on $index-->
                         <div ng-repeat="res in reservations track by $index" class="seats"
-                            ng-class="res.userId?'occupied':''"
-                            ng-click="selectSeat($index)">
+                             ng-class="res.userId>=0?'occupied':''"
+                             ng-click="selectSeat($index)">
                             {{$index+1}}
                         </div>
                     </div>
@@ -24,26 +24,48 @@
             </div>
         </div>
     </div>
-    <div ng-show="selectedSeat" class="row col-sm-12">
-        <div style="height: 30px;"></div>
-        <div style="margin-bottom:10px;" class="col-sm-12">
-            To reserve seat {{selectedSeat}}, please enter below information:
+
+
+    <!--<div ng-show="selectedSeat" class="row col-sm-12">-->
+    <!--<div style="height: 30px;"></div>-->
+    <!--<div style="margin-bottom:10px;" class="col-sm-12">-->
+    <!--To reserve seat {{selectedSeat}}, please enter below information:-->
+    <!--</div>-->
+    <!--<div class="input-text row col-sm-12" style="margin-bottom:10px;">-->
+    <!--<div class="col-sm-5 adjust-column" style="text-align:right;">Your Name:</div>-->
+    <!--<div class="col-sm-7 adjust-column">-->
+    <!--<input type="text" ng-model="user.name"/>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="input-text row col-sm-12">-->
+    <!--<div class="col-sm-5 adjust-column"  style="text-align:right;">Your Employee Id:</div>-->
+    <!--<div class="col-sm-7 adjust-column">-->
+    <!--<input type="text" ng-model="user.userId"/>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div style="margin-top: 15px;text-align: center;" class="col-sm-12">-->
+    <!--<button class="btn btn-primary" ng-click="submitReservation(user.name, user.userId)">Submit</button>-->
+    <!--<button class="btn">Cancel</button>-->
+    <!--</div>-->
+    <!--</div>-->
+</div>
+<div class="panel panel-default" ng-show="myReservation.enrolled">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col">Date</div>
+            <div class="col">Class</div>
+            <div class="col">Spot</div>
+            <div class="col">Instructor</div>
+            <div class="col">Status</div>
+            <div class="col">Action</div>
         </div>
-        <div class="input-text row col-sm-12" style="margin-bottom:10px;">
-            <div class="col-sm-5 adjust-column" style="text-align:right;">Your Name:</div>
-            <div class="col-sm-7 adjust-column">
-                <input type="text" ng-model="user.name"/>
-            </div>
-        </div>
-        <div class="input-text row col-sm-12">
-            <div class="col-sm-5 adjust-column"  style="text-align:right;">Your Employee Id:</div>
-            <div class="col-sm-7 adjust-column">
-                <input type="text" ng-model="user.userId"/>
-            </div>
-        </div>
-        <div style="margin-top: 15px;text-align: center;" class="col-sm-12">
-            <button class="btn btn-primary" ng-click="submitReservation(user.name, user.userId)">Submit</button>
-            <button class="btn">Cancel</button>
+        <div class="row" ng-model="myReservation">
+            <div class="col">{{myReservation.classTime}}</div>
+            <div class="col">{{myReservation.className}}</div>
+            <div class="col">{{myReservation.spotId}}</div>
+            <div class="col">{{myReservation.instructor}}</div>
+            <div class="col">enrolled</div>
+            <button class="col button" ng-click="cancelReservation() ; generateReservations() ">Cancel</button>
         </div>
     </div>
 </div>
