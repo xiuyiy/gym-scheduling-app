@@ -78,12 +78,9 @@ app.get('/reservations', function(req, res) {
 });
 
 app.post('/reservations', function(req, res) {
-
     console.log(req.body);
-    // jwtService.validateJwt(req, res);
-        var resp = reservationFactory.insertReservation(req.body);
-        res.status(204);
-
+    jwtService.validateJwt(req, res);
+    var resp = reservationFactory.insertReservation(req.body, res);
 });
 
 app.delete('/reservations', function (req, res) {

@@ -75,7 +75,15 @@ var userFactory = function(Schema, mongoose, connection, autoIncrement, jwtInfo)
             password: requestBody.hashPwd,
             verificationCode: requestBody.verificationCode
         });
-        newUser.save();
+        newUser.save(function(err, result){
+            if (err) {
+                res.status(400).send(err.message);
+            }
+            if (result) {
+                console.log(result);
+                res.status(200).send("Succssfully reserve the spot!");
+            }
+        });
     };
 
     this.deleteUser = function(req, res) {

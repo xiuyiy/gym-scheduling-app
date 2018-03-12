@@ -12,7 +12,7 @@ var Factory = function (Schema, mongoose, connection, autoIncrement, jwtInfo) {
                 type: Number
             },
             userId: {
-                type: Number
+                type: String, ref: "User"
             },
             spotId: {
                 type: Number
@@ -24,6 +24,14 @@ var Factory = function (Schema, mongoose, connection, autoIncrement, jwtInfo) {
             // spotId: 1,
             // userId: 1
             _id: 1
+        }, {
+            unique: true
+        });
+        ReservationSchema.index({
+            date: 1,
+            classId: 1,
+            spotId: 1,
+            userId: 1
         }, {
             unique: true
         });
@@ -41,15 +49,22 @@ var Factory = function (Schema, mongoose, connection, autoIncrement, jwtInfo) {
         });
     };
 
-    this.insertReservation = function (req) {
+    this.insertReservation = function (req, res) {
         var reservation = new this.Reservation({
             date: jwtInfo.getDayFromDate,
             classId: req.classId,
             userId: req.userId,
             spotId: req.spotId
         });
-
-       reservation.save();
+       reservation.save(function(err, result){
+           if (err) {
+               res.status(400).send(err.message);
+           }
+           if (result) {
+               console.log(result);
+               res.status(200).send("Succssfully reserve the spot!");
+           }
+       });
     };
 
     this.deleteReservation = function (query, res) {
