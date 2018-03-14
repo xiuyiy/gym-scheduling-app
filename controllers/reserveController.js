@@ -53,7 +53,6 @@ Created by Ming He on Feb 24, 2018
             })
                 .then(function (response) {
                     if (response.data.length > 0) {
-                        debugger;
                         $scope.myReservation.spotId = response.data[0].spotId;
                         $scope.myReservation.enrolled = true;
                     }
@@ -73,8 +72,8 @@ Created by Ming He on Feb 24, 2018
             })
                 .then(function (response) {
                     $scope.oriReservations = response.data;
-                    debugger;
                     $scope.renderReservations();
+                    debugger;
                 }).catch(function (error) {
                 if (error.status === 403) {
                     $location.path('/login');
@@ -118,9 +117,11 @@ Created by Ming He on Feb 24, 2018
             });
         }
 
-        $scope.submitReservation = function(name, employeeId) {
+        $scope.submitReservation = function() {
+
+            $scope.clickReserve = true;
             if ($scope.reservations.some(function(element){
-                return (element.userId === employeeId);
+                return (element.userId === $scope.authInfo.userId);
             })) {
                 $scope.reserveSuc = false;
                 $scope.reserveMessage = "Sorry you've already reserved.";
@@ -129,24 +130,26 @@ Created by Ming He on Feb 24, 2018
                 $scope.reserveSuc = true;
                 $scope.reserveMessage = "Your just reserved successfully!";
                 var body = {
-                    name: name,
-                    employeeId: employeeId,
+                    userId: $scope.authInfo.userId,
                     spotId: $scope.selectedSeat,
-                    date: $scope.formatDate()
+                    classId: 1//to-do
                 }
                 console.log(body);
-                $http.post($scope.reservationUrl, body)
-                    .then(function(response){
-                        $scope.reservations[$scope.selectedSeat-1] = body;
+                $http.post($scope.reservationUrl, body, {
+                    headers: {
+                        'X-AuthToken': $scope.authInfo.token
+                    }
+                })
+                    .then(function (response) {
+                        $scope.reservations[$scope.selectedSeat - 1] = body;
                         $scope.selectedSeat = null;
                         alert($scope.reserveMessage);
-                    }).catch(function(response){
-                        alert(response.data);
-                    });
+                    }).catch(function (response) {
+                    alert(response.data);
+                });
+                $scope.clickReserve = false;
             }
         };
-
-
 
         //index ranging from 0-19
         $scope.selectSeat = function (index) {
