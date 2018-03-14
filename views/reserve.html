@@ -49,7 +49,27 @@
     <!--</div>-->
     <!--</div>-->
 </div>
-<div class="panel panel-default" ng-show="myReservation.enrolled">
+<div class="panel panel-default" ng-show="!submitted">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col">Date</div>
+            <div class="col">Class</div>
+            <div class="col">Spot</div>
+            <div class="col">Instructor</div>
+            <div class="col">Status</div>
+            <div class="col">Action</div>
+        </div>
+        <div class="row" ng-model="myReservation">
+            <div class="col">{{myReservation.classTime}}</div>
+            <div class="col">{{myReservation.className}}</div>
+            <div class="col">{{myReservation.spotId}}</div>
+            <div class="col">{{myReservation.instructor}}</div>
+            <div class="col">available</div>
+            <button class="col button" ng-click="submitReservation()">Reserve</button>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default" ng-show="myReservation.enrolled && submitted">
     <div class="panel-body">
         <div class="row">
             <div class="col">Date</div>

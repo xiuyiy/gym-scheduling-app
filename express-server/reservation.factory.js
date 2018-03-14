@@ -61,8 +61,7 @@ var Factory = function (Schema, mongoose, connection, autoIncrement, jwtInfo) {
                res.status(400).send(err.message);
            }
            if (result) {
-               console.log(result);
-               res.status(200).send("Succssfully reserve the spot!");
+               res.status(200).send("Successfully reserved the spot!");
            }
        });
     };
@@ -73,9 +72,9 @@ var Factory = function (Schema, mongoose, connection, autoIncrement, jwtInfo) {
                 res.status(500).json("deletion failed");
             }
             if (output) {
-                res.status(204);
+                res.status(200).send("Successfully deleted the user from that spot!");
             }
-        })
+        });
     };
 
     this.generateJwt = function () {

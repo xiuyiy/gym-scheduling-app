@@ -46,6 +46,8 @@ app.use(function(req, res, next) {
     //set CORS headers
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-AuthToken");
+    //specify allowed methods
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
     next();
 });
 
@@ -78,7 +80,6 @@ app.get('/reservations', function(req, res) {
 });
 
 app.post('/reservations', function(req, res) {
-    console.log(req.body);
     jwtService.validateJwt(req, res);
     var resp = reservationFactory.insertReservation(req.body, res);
 });
@@ -86,7 +87,6 @@ app.post('/reservations', function(req, res) {
 app.delete('/reservations', function (req, res) {
 
     console.log("This is delete");
-    console.log(req.query);
     jwtService.validateJwt(req, res);
     var resp = reservationFactory.deleteReservation(req.query, res);
 })
