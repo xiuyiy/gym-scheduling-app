@@ -35,6 +35,11 @@
                     <input type="password" class="form-control" name="password" id="password"
                            placeholder="Password" ng-model="newUser.password">
                 </div>
+                <div class="form-group" ng-show="isAdminPage">
+                    <label for="adminQuestion">1 + 2 + 3 + 4 + 5 + ... = ?</label>
+                    <input type="text" class="form-control" name="adminQuestion" id="adminQuestion"
+                           placeholder="Answer" ng-model="adminAnswer">
+                </div>
 
             </form>
             <button class="btn btn-primary" ng-click="registerUser()">Register!</button>

@@ -16,6 +16,10 @@
         $scope.login = function () {
             $http.post($scope.backendUrl + "login", $scope.currentUser)
                 .then(function (res) {
+                    if(!res.data.isActive) {
+                        $scope.loginError = 'please check your inbox to confirm the registration';
+                        return;
+                    }
                     $window.localStorage.setItem("authInfo",JSON.stringify(res.data));
                     // var backend = JSON.parse($window.localStorage.getItem("authInfo"));
                     $scope.getToClassPage();
