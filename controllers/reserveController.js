@@ -96,7 +96,7 @@ Created by Ming He on Feb 24, 2018
         };
 
         $scope.cancelReservation = function () {
-            debugger;
+            $scope.reserveMessage = null;
             $http({
                 method: 'DELETE',
                 url: $scope.reservationUrl + "?date=" + $scope.today + "&userId=" + $scope.authInfo.userId,
@@ -109,6 +109,8 @@ Created by Ming He on Feb 24, 2018
                         debugger;
                         $scope.myReservation.spotId = -1;
                         $scope.myReservation.enrolled = false;
+                        $scope.clickReserve = false;
+                        $scope.reserveMessage = "Cancellation succeed!"
                     }
                 }).catch(function (error) {
                 if (error.status === 403) {
@@ -119,7 +121,6 @@ Created by Ming He on Feb 24, 2018
 
         $scope.submitReservation = function() {
 
-            $scope.clickReserve = true;
             if ($scope.reservations.some(function(element){
                 return (element.userId === $scope.authInfo.userId);
             })) {
@@ -141,9 +142,13 @@ Created by Ming He on Feb 24, 2018
                     }
                 })
                     .then(function (response) {
+                        //0-19
                         $scope.reservations[$scope.selectedSeat - 1] = body;
                         $scope.selectedSeat = null;
-                        alert($scope.reserveMessage);
+                        // alert($scope.reserveMessage);
+                        $scope.generateReservations();
+                        $scope.myReservation.spotId = $scope.selectedSeat;
+                        $scope.myReservation.enrolled = true;
                     }).catch(function (response) {
                     alert(response.data);
                 });
@@ -153,10 +158,16 @@ Created by Ming He on Feb 24, 2018
 
         //index ranging from 0-19
         $scope.selectSeat = function (index) {
+            $scope.reserveMessage = null;
             if (!$scope.reservations[index].name) {
 
                 //selectedSeat ranging from 1-20
                 $scope.selectedSeat = index+1;
+                $scope.clickReserve = true;
+                //only modify the spotId if the user is not enrolled
+                if (!$scope.myReservation.enrolled) {
+                    $scope.myReservation.spotId = $scope.selectedSeat;
+                }
             } else {
                 //alert("The seat is already occupied!");
             }
