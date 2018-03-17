@@ -14,8 +14,9 @@
     color: #5a9808;
     font-weight: bold;
 }
-
-
+.lime-p{
+    color: #5a9808;
+}
 .border-between > [class*='col']:before {
     background: #e3e3e3;
     bottom: 0;

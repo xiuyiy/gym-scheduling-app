@@ -11,6 +11,19 @@ Created by Ming He on Feb 24, 2018
         //var className = "Barbell";
         // $scope.reservationUrl = "http://mac-mhe2.corp.microstrategy.com:3000/reservations";
         $scope.reservationUrl = "http://localhost:3000/reservations";
+        $scope.getDisplayDate = function () {
+            var d = new Date();
+            const MONTH_NAMES = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+            const WEEKDAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+            ];
+            $scope.month = MONTH_NAMES[d.getMonth()];
+            $scope.weekday = WEEKDAY_NAMES[d.getDay()];
+            $scope.day = d.getDate();
+        }
+
+        $scope.getDisplayDate();
 
 
         $scope.authInfo = JSON.parse($window.localStorage.getItem("authInfo"));
@@ -34,6 +47,8 @@ Created by Ming He on Feb 24, 2018
         };
 
         $scope.today = $scope.formatDate();
+
+
 
 
 
