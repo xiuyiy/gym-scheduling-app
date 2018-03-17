@@ -7,20 +7,24 @@
     <!--<button class="btn btn-primary" ng-click="registerUser()">Register</button>-->
 <!--</div>-->
 
+
+
+
 <div class="container">
 
     <div class="row">
         <div class="col-md-6">
             <h1>Register</h1>
             <p class="lead">Already a member? Please <button class="btn btn-warning" ng-click="goToLoginPage()">Sign in</button> instead.</p>
-            <div class="alert-success" ng-show="registerSuccess">Please check your email and confirm your registration!</span></div>
-            <form>
+            <div class="alert alert-success" ng-show="registerSuccess">An email has been sent to the email address you provided below.
+                Please check your email inbox and confirm your registration!</span></div>
+            <form data-toggle="validator" role="form">
                 <div class="form-group">
                     <label for="firstName">First name</label>
                     <input type="text" class="form-control" name="lastName" id="firstName"
                            placeholder="Enter your first name" ng-model="newUser.firstName">
                 </div>
-                <div class="form-group">
+                <div class="form-groups">
                     <label for="lastName">Last name</label>
                     <input type="text" class="form-control" name="lastName" id="lastName"
                            placeholder="Enter your last name" ng-model="newUser.lastName">
@@ -28,12 +32,18 @@
                 <div class="form-group">
                     <label for="email">Email address</label>
                     <input type="email" class="form-control" name="email" id="email"
-                           placeholder="Enter email" ng-model="newUser.email">
+                           placeholder="Enter email" ng-model="newUser.email" data-error="Sorry, the email address you provided is invalid" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" name="password" id="password"
                            placeholder="Password" ng-model="newUser.password">
+                </div>
+
+                <div class="form-group">
+                    <label for="password2">Re-enter password</label>
+                    <input type="password" class="form-control" name="password2" id="password2"
+                           placeholder="Password" ng-model="newUser.password2">
                 </div>
                 <div class="form-group" ng-show="isAdminPage">
                     <label for="adminQuestion">1 + 2 + 3 + 4 + 5 + ... = ?</label>
