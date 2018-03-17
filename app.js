@@ -23,6 +23,15 @@
                     }
                 }
             })
+            .state('registerAdmin', {
+                url: '/register/admin',
+                views: {
+                    '': {
+                        templateUrl: 'views/register.html',
+                        controller: 'registerController'
+                    }
+                }
+            })
             .state('countDown', {
                 url: '/countDown',
                 views: {

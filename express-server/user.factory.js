@@ -59,9 +59,9 @@ var userFactory = function(Schema, mongoose, connection, autoIncrement, jwtInfo)
         });
     };
 
-    this.getUserByEmail = function(keyword) {
+    this.getUserByEmail = function(email) {
         var query = {
-            "email": keyword
+            "email": email
         };
         return this.User.find(query).exec();
     };
@@ -73,7 +73,8 @@ var userFactory = function(Schema, mongoose, connection, autoIncrement, jwtInfo)
             firstName: requestBody.firstName,
             lastName: requestBody.lastName,
             password: requestBody.hashPwd,
-            verificationCode: requestBody.verificationCode
+            verificationCode: requestBody.verificationCode,
+            isAdmin: requestBody.isAdmin
         });
         newUser.save(function(err, result){
             if (err) {

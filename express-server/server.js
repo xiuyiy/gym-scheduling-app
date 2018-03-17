@@ -143,10 +143,12 @@ app.post('/users', function(req, res) {
 
 app.post('/login', function(req, res) {
     var query = req.body;
+    console.log(query);
     if (!query || !query.email || !query.password) {
         res.status(400).json("missing parameters");
     }
     var output = userFactory.getUserByEmail(query.email);
+    console.log(output);
     output.then(function(users) {
         if (!users || users.length == 0) { //user email is not correct
             res.status(401).json("user's email does not exist!");
@@ -157,7 +159,7 @@ app.post('/login', function(req, res) {
         } else {
             bcrypt.compare(query.password, users[0].password, function(err, result) {
                 if (err) {
-                    res.status(500).json("internal server error");
+                    res.status(500).json("your password is incorrect");
                 }
                 if (result) {
                     //res.status(200).json("login successfully.");
@@ -168,6 +170,8 @@ app.post('/login', function(req, res) {
                         email: users[0].email,
                         firstName: users[0].firstName,
                         lastName: users[0].lastName,
+                        isAdmin: users[0].isAdmin,
+                        isActive: users[0].isActive
                     };
                     res.status(200).send(responseBody);
                 }

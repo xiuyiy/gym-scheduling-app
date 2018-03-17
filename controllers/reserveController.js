@@ -4,9 +4,9 @@ Created by Ming He on Feb 24, 2018
 
 (function () {
 
-    var injectParams = ['$scope', '$rootScope', '$http', '$window', '$location'];
+    var injectParams = ['$scope', '$rootScope', '$http', '$window', '$location', "sessionService"];
 
-    var reserveController = function ($scope, $rootScope, $http, $window, $location) {
+    var reserveController = function ($scope, $rootScope, $http, $window, $location, sessionService) {
         //var currentDate = new Date();
         //var className = "Barbell";
         // $scope.reservationUrl = "http://mac-mhe2.corp.microstrategy.com:3000/reservations";
@@ -172,6 +172,8 @@ Created by Ming He on Feb 24, 2018
                 //alert("The seat is already occupied!");
             }
         };
+        
+        $scope.logout = sessionService.logout($window, $location);
 
         $scope.generateReservations();
     };

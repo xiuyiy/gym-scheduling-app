@@ -1,32 +1,33 @@
-<div>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-brand" ng-show="firstName">
-                Welcome {{firstName}}!
-            </div>
-        </div>
-    </nav>
-</div>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="row">
-                <div class="col">MOM</div>
-                <div class="col">TUE</div>
-                <div class="col">WED</div>
-                <div class="col">THU</div>
-                <div class="col">FRI</div>
-            </div>
+<nav class="navbar nnavbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">
+        <img src="/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+        SuperHero Lab
+    </a>
+    <a class="nav-link text-right" href="#" ng-click="logout()">
+        <div class="text-light">logout</div>
+    </a>
+</nav>
+
+<div class="container-fluid text-center">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <h3>Welcome {{firstName}}!</h3>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="table">
+        <div class="row font-weight-bold" >
+            <div class="col">MOM</div>
+            <div class="col">TUE</div>
+            <div class="col">WED</div>
+            <div class="col">THU</div>
+            <div class="col">FRI</div>
         </div>
         &nbsp;
-        <div class="panel-body">
-            <div class="row" ng-repeat="items in InspireList">
-                <div class="col" ng-repeat="item in items">
-                    <div ng-click="goToReservationPage(item)" class="{{item.titleStyle}}">{{item.title}}</div>
-                    <div>{{item.instructor}}</div>
-                    <div>{{item.startTime}}</div>
-                    <div>{{item.duration}}</div>
-                    &nbsp;
-                </div>
+        <div class="row" ng-repeat="items in InspireList">
+            <div class="col font-weight-light" ng-repeat="item in items" style="padding-right:20px; border-right: 1px solid #ccc;">
+                <div ng-click="goToReservationPage(item)" class="{{item.titleStyle}} font-weight-normal">{{item.title}}</div>
+                <div >{{item.instructor}}</div>
+                <div>{{item.startTime}}</div>
+                <div>{{item.duration}}</div>
+                &nbsp;
             </div>
         </div>
     </div>
