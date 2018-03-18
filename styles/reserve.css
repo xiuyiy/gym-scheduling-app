@@ -35,7 +35,7 @@ Created by Ming He on Feb 24, 2018
 .occupied {
     cursor: not-allowed;
     background-color: #CCCCCC;
-    color: #444649;
+    color: #CCCCCC;
 }
 
 .vertical-text {
