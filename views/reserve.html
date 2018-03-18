@@ -8,86 +8,123 @@
     </a>
 </nav>
 <div class="container text-center">
-<div ng-show="authInfo.isAdmin" class="navbar navbar-inverse nav">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
-            <a class="brand" href="/"  ng-click="logout()">Show Reservations</a>
+    <div ng-show="authInfo.isAdmin" class="navbar navbar-inverse nav">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="/" ng-click="logout()">Show Reservations</a>
 
-            <div class="nav-collapse collapse">
-                <ul class="nav">
-                    <li class="divider-vertical"></li>
-                    <li><a href="#"><i class="icon-home icon-white"></i> Home</a></li>
-                </ul>
-                <div class="pull-right">
-                    <ul class="nav pull-right">
-                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/user/preferences"><i class="icon-cog"></i> Preferences</a></li>
-                                <li><a href="/help/support"><i class="icon-envelope"></i> Contact Support</a></li>
-                                <li class="divider"></li>
-                                <li><a href="/auth/logout"><i class="icon-off"></i> Logout</a></li>
-                            </ul>
-                        </li>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li class="divider-vertical"></li>
+                        <li><a href="#"><i class="icon-home icon-white"></i> Home</a></li>
                     </ul>
+                    <div class="pull-right">
+                        <ul class="nav pull-right">
+                            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome,
+                                User <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/user/preferences"><i class="icon-cog"></i> Preferences</a></li>
+                                    <li><a href="/help/support"><i class="icon-envelope"></i> Contact Support</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/auth/logout"><i class="icon-off"></i> Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <h3>Reserve for {{weekday}}, {{month}} {{day}}, 5:15 PM Barbell Class with Iuliia</h3>
-<div style="text-align:center;padding:20px;width:400px;margin:10px auto;">
-    <div ng-show="reserveMessage">{{reserveMessage}}</div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div style="margin-top:10px;">
-                MIRROR
-            </div>
-            <div class="col-sm-12" style="text-align:center;">
-                <div style="margin: 10px auto;width:400px;">
-                    <div style="width:360px;float:left;">
-                        <!--display $index+1 but actually click on $index-->
-                        <div ng-repeat="res in reservations track by $index" class="seats"
-                             ng-class="res.userId>=0?'occupied':''"
-                             ng-click="selectSeat($index)">
-                            {{$index+1}}
+    <div style="margin-top:40px;">
+    <h3 >Reserve for {{weekday}}, {{month}} {{day}}, 5:15 PM Barbell Class with Iuliia</h3>
+    </div>
+    <div class="row" style="margin-top:60px;">
+        <div class="col-md-4"></div>
+        <div class="col-md-5 align-content-center">
+            <div ng-show="reserveMessage">{{reserveMessage}}</div>
+            <div class="row">
+                <div>
+                    <div class="text-center" style="margin-top:10px;width:400px;float:left;">
+                        <div class="font-weight-normal">MIRROR</div>
+                    </div>
+                    <div>
+                        <div style="margin: 10px auto;width:550px;">
+                            <!--<div style="width:450px;float:left;">-->
+                            <!--&lt;!&ndash;display $index+1 but actually click on $index&ndash;&gt;-->
+                            <!--<div ng-repeat="res in reservations track by $index" class="seats"-->
+                            <!--ng-class="res.userId>=0?'occupied':''"-->
+                            <!--ng-click="selectSeat($index)">-->
+                            <!--{{$index+1}}-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <div style="width:400px;float:left;">
+                                <div>
+                                    <span ng-class="myReservation.spotId===1? 'rounded-circle spots my-spot':!reservations[0].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(0)">1</span>
+                                    <span ng-class="myReservation.spotId===2? 'rounded-circle spots my-spot':!reservations[1].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(1)">2</span>
+                                    <span ng-class="myReservation.spotId===3? 'rounded-circle spots my-spot':!reservations[2].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(2)">3</span>
+                                    <span ng-class="myReservation.spotId===4? 'rounded-circle spots my-spot':!reservations[3].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(3)">4</span>
+                                    <span ng-class="myReservation.spotId===5? 'rounded-circle spots my-spot':!reservations[4].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(4)">5</span>
+                                    <span ng-class="myReservation.spotId===6? 'rounded-circle spots my-spot':!reservations[5].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(5)">6</span>
+                                </div>
+
+                                <div>
+                                    <span ng-class="myReservation.spotId===7? 'rounded-circle spots my-spot':!reservations[6].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(6)">7</span>
+                                    <span ng-class="myReservation.spotId===8? 'rounded-circle spots my-spot':!reservations[7].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(7)">8</span>
+                                    <span ng-class="myReservation.spotId===9? 'rounded-circle spots my-spot':!reservations[8].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(8)">9</span>
+                                    <span ng-class="myReservation.spotId===10? 'rounded-circle spots my-spot':!reservations[9].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(9)">10</span>
+                                    <span ng-class="myReservation.spotId===11? 'rounded-circle spots my-spot':!reservations[10].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(10)">11</span>
+                                    <span ng-class="myReservation.spotId===12? 'rounded-circle spots my-spot':!reservations[11].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(11)">12</span>
+                                    <span ng-class="myReservation.spotId===13? 'rounded-circle spots my-spot':!reservations[12].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(12)">13</span>
+                                </div>
+
+                                <div>
+                                    <span ng-class="myReservation.spotId===14? 'rounded-circle spots my-spot':!reservations[13].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(13)">14</span>
+                                    <span ng-class="myReservation.spotId===15? 'rounded-circle spots my-spot':!reservations[14].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(14)">15</span>
+                                    <span ng-class="myReservation.spotId===16? 'rounded-circle spots my-spot':!reservations[15].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(15)">16</span>
+                                    <span ng-class="myReservation.spotId===17? 'rounded-circle spots my-spot':!reservations[16].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(16)">17</span>
+                                    <span ng-class="myReservation.spotId===18? 'rounded-circle spots my-spot':!reservations[17].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(17)">18</span>
+                                    <span ng-class="myReservation.spotId===19? 'rounded-circle spots my-spot':!reservations[19].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(18)">19</span>
+                                    <span ng-class="myReservation.spotId===20? 'rounded-circle spots my-spot':!reservations[19].userId?'rounded-circle spots':'rounded-circle spots occupied'" ng-click="selectSeat(19)">20</span>
+                                </div>
+                            </div>
+                            <div class="vertical-text" style="width:120px;display:inline-block;text-align: center;padding-left: 55px;padding-right: 55px">
+                                WINDOW
+                            </div>
+                            <!--</div>-->
                         </div>
                     </div>
-                    <div class="vertical-text" style="width:30px;display:inline-block">
-                        WINDOW
-                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="panel panel-default" ng-show="myReservation.enrolled || clickReserve">
-    <div class="panel-body">
-        <div class="row">
-            <div class="col">Date</div>
-            <div class="col">Class</div>
-            <div class="col">Spot</div>
-            <div class="col">Instructor</div>
-            <div class="col">Status</div>
-            <div class="col">Action</div>
-        </div>
-        <div class="row" ng-model="myReservation">
-            <div class="col">{{myReservation.classTime}}</div>
-            <div class="col">{{myReservation.className}}</div>
-            <div class="col">{{myReservation.spotId}}</div>
-            <div class="col">{{myReservation.instructor}}</div>
-            <div class="col" ng-show="myReservation.enrolled">enrolled</div>
-            <button class="col button" ng-show="myReservation.enrolled" ng-click="cancelReservation() ; generateReservations() ">Cancel</button>
-            <div class="col" ng-show="!myReservation.enrolled">available</div>
-            <button class="col button" ng-show="!myReservation.enrolled" ng-click="submitReservation()">reserve</button>
+        <div class="col-md-12" style="margin-top: 30px;" ng-show="myReservation.enrolled || clickReserve">
+            <div class="row font-weight-bold" style="border-bottom: 1px solid #ccc;">
+                <div class="col">Date</div>
+                <div class="col">Class</div>
+                <div class="col">Spot</div>
+                <div class="col">Instructor</div>
+                <div class="col">Status</div>
+                <div class="col">Action</div>
+            </div>
+            <div class="row font-weight-light" ng-model="myReservation" style="border-bottom: 1px solid #ccc; padding-top: 6px;padding-bottom: 6px">
+                <div class="col">{{myReservation.classTime}}</div>
+                <div class="col">{{myReservation.className}}</div>
+                <div class="col">{{myReservation.spotId}}</div>
+                <div class="col">{{myReservation.instructor}}</div>
+                <div class="col" ng-show="myReservation.enrolled">enrolled</div>
+                <div class="col btn-link" ng-show="myReservation.enrolled"
+                        ng-click="cancelReservation() ; generateReservations() ">Cancel
+                </div>
+                <div class="col" ng-show="!myReservation.enrolled">available</div>
+                <div class="col btn-link font-weight-light" ng-show="!myReservation.enrolled" ng-click="submitReservation()">reserve
+                </div>
 
+            </div>
         </div>
-    </div>
-</div>
 
+    </div>
 </div>
