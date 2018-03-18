@@ -3,26 +3,28 @@
     <div class="jumbotron text-left">
         <h1>B.T. Labs</h1>
         <p>Body Transformation Labs is an online workout calender and class reservation application</p>
-
     </div>
-
-
 
     <div class="row">
         <div class="col-md-6">
             <h1 class="form-signin-heading">Sign in</h1>
-            <p class="lead">Not a member? Please <button class="btn btn-warning" ng-click="goToRegisterPage()">Register</button> instead.</p>
-            <div class="alert-danger" ng-show="loginError">{{loginError}}</div>
+            <p class="lead">Not a member? Please
+                <button class="btn-sm btn-link" ng-click="goToRegisterPage()">register</button>
+                instead.
+            </p>
+            <div class="alert alert-danger" ng-show="loginError">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{loginError}}
+            </div>
             <form>
 
                 <div class="form-group">
                     <label for="email">Email address</label>
                     <input type="email" name="email" id="email" placeholder="Enter email"
-                           class="form-control" ng-model="currentUser.email" >
+                           class="form-control" ng-model="currentUser.email">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password" placeholder="Password"
+                    <input type="password" name="password" id="password" placeholder="Enter password"
                            class="form-control" ng-model="currentUser.password">
                 </div>
             </form>
@@ -33,10 +35,10 @@
 
 
         <!--<div class="well well-sm col-md-6 float-md-right" style="top: 150px">-->
-            <!--<blockquote class="blockquote">-->
-                <!--<p class="mb-0">The idea of lying on a beach as my main thing just sounds like the worst. It sounds horrible to me. I would go bonkers. I would have to be on serious drugs. I’d be super-duper bored. I like high intensity.</p>-->
-                <!--<footer class="blockquote-footer text-right"></footer>-->
-            <!--</blockquote>-->
+        <!--<blockquote class="blockquote">-->
+        <!--<p class="mb-0">The idea of lying on a beach as my main thing just sounds like the worst. It sounds horrible to me. I would go bonkers. I would have to be on serious drugs. I’d be super-duper bored. I like high intensity.</p>-->
+        <!--<footer class="blockquote-footer text-right"></footer>-->
+        <!--</blockquote>-->
         <!--</div>-->
 
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -45,8 +47,10 @@
             <div class="container">
                 <blockquote class="quote-card">
                     <p>
-                        The idea of lying on a beach as my main thing just sounds like the worst. It sounds horrible to me.
-                        I would go bonkers. I would have to be on serious drugs. I’d be super-duper bored. I like high intensity.
+                        The idea of lying on a beach as my main thing just sounds like the worst. It sounds horrible to
+                        me.
+                        I would go bonkers. I would have to be on serious drugs. I’d be super-duper bored. I like high
+                        intensity.
                     </p>
 
                     <cite>

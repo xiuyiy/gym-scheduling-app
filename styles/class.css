@@ -11,7 +11,8 @@
 
 .lime-title {
     cursor: pointer;
-    color: #5a9808;
+    /*color: #5a9808;*/
+    color: #0099CC;
     font-weight: bold;
 }
 .lime-p{
