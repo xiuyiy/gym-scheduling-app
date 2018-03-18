@@ -159,10 +159,11 @@ Created by Ming He on Feb 24, 2018
                     .then(function (response) {
                         //0-19
                         $scope.reservations[$scope.selectedSeat - 1] = body;
-                        $scope.selectedSeat = null;
+
                         // alert($scope.reserveMessage);
                         $scope.generateReservations();
                         $scope.myReservation.spotId = $scope.selectedSeat;
+                        $scope.selectedSeat = null;
                         $scope.myReservation.enrolled = true;
                     }).catch(function (response) {
                     alert(response.data);
@@ -174,8 +175,8 @@ Created by Ming He on Feb 24, 2018
         //index ranging from 0-19
         $scope.selectSeat = function (index) {
             $scope.reserveMessage = null;
-            if (!$scope.reservations[index].name) {
-
+            //it is possible that user has userId==0
+            if ($scope.reservations[index].userId!==0 && !$scope.reservations[index].userId){
                 //selectedSeat ranging from 1-20
                 $scope.selectedSeat = index+1;
                 $scope.clickReserve = true;
