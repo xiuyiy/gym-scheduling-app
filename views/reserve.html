@@ -46,7 +46,7 @@
     <div class="row" style="margin-top:60px;">
         <div class="col-md-4"></div>
         <div class="col-md-5 align-content-center">
-            <div ng-show="reserveMessage">{{reserveMessage}}</div>
+            <!--<div ng-show="reserveMessage">{{reserveMessage}}</div>-->
             <div class="row">
                 <div>
                     <div class="text-center" style="margin-top:10px;width:400px;float:left;">
@@ -113,7 +113,7 @@
             <div class="row font-weight-light" ng-model="myReservation" style="border-bottom: 1px solid #ccc; padding-top: 6px;padding-bottom: 6px">
                 <div class="col">{{myReservation.classTime}}</div>
                 <div class="col">{{myReservation.className}}</div>
-                <div class="col">{{myReservation.spotId}}</div>
+                <div class="col font-weight-normal">{{myReservation.spotId}}</div>
                 <div class="col">{{myReservation.instructor}}</div>
                 <div class="col" ng-show="myReservation.enrolled">enrolled</div>
                 <div class="col btn-link" ng-show="myReservation.enrolled"
