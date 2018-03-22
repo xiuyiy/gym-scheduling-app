@@ -52,7 +52,7 @@
     </div>
     <div style="margin-top:40px;">
         <h3 ng-hide="isSummaryPage">Reserve for {{weekday}}, {{month}} {{day}}, 5:15 PM Barbell Class with Iuliia</h3>
-        <h3 ng-show="isSummaryPage">Reservation summary for {{weekday}}, {{month}} {{day}}, 5:15 PM Barbell Class with
+        <h3 ng-show="isSummaryPage">Reservation Summary for {{weekday}}, {{month}} {{day}}, 5:15 PM Barbell Class with
             Iuliia</h3>
     </div>
     <div class="row" style="margin-top:60px;">
@@ -166,7 +166,7 @@
 
 
             <div style="overflow: scroll; height: 400px;" class="row">
-                <div ng-class="reservationsUserInfos.size>0 ? 'col-md-6':'col-md-12'">
+                <div ng-class="reservationsUserInfos.size > 10 ? 'col-md-6':'col-md-12'">
                     <div class="row font-weight-bold"
                          style="border-bottom: 1px solid #ccc; padding-top: 6px; padding-bottom: 6px">
 
@@ -181,7 +181,7 @@
                         <div class="col btn-link" ng-click="removeUserReservation(reservation.userId._id)">remove</div>
                     </div>
                 </div>
-                <div class="col-md-6" ng-show="reservationsUserInfos.size>0">
+                <div class="col-md-6" ng-show="reservationsUserInfos.size > 10">
                     <div class="row font-weight-bold"
                          style="border-bottom: 1px solid #ccc; border-left: 1px solid #ccc; padding-top: 6px;padding-bottom: 6px">
 
