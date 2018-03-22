@@ -12,13 +12,14 @@ var Factory = function (Schema, mongoose, connection, autoIncrement, jwtInfo) {
                 type: Number
             },
             userId: {
-                type: String, ref: "User"
+                type: Schema.Types.ObjectId, ref: "User"
             },
             spotId: {
                 type: Number
             }
         });
-        ReservationSchema.plugin(autoIncrement.plugin, 'Reservation');
+        //removed auto index increment as this seems to break join. ObjectId accepts a 24-length-long hex string
+        // ReservationSchema.plugin(autoIncrement.plugin, 'Reservation');
         ReservationSchema.index({
             // date: 1,
             // spotId: 1,
@@ -49,6 +50,7 @@ var Factory = function (Schema, mongoose, connection, autoIncrement, jwtInfo) {
         });
     };
 
+
     this.insertReservation = function (req, res) {
         var reservation = new this.Reservation({
             date: jwtInfo.getDayFromDate,
@@ -66,8 +68,20 @@ var Factory = function (Schema, mongoose, connection, autoIncrement, jwtInfo) {
        });
     };
 
+    this.getAllReservationsByDay = function (date) {
+        var query = {
+            "date": date
+        };
+        return this.Reservation.find(query).populate('userId').exec();
+    }
+
     this.deleteReservation = function (query, res) {
-        this.Reservation.findOneAndRemove(query, function (error, output) {
+
+        var match = {
+          date: query.date,
+          userId: query.userId
+        };
+        this.Reservation.findOneAndRemove(match, function (error, output) {
             if (error) {
                 res.status(500).json("deletion failed");
             }

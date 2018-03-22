@@ -38,6 +38,12 @@ Created by Ming He on Feb 24, 2018
     color: #CCCCCC;
 }
 
+.occupied-reserve-summary {
+    cursor: not-allowed;
+    background-color: #CCCCCC;
+    color: black;
+}
+
 .vertical-text {
 	transform: rotate(90deg);
 	transform-origin: left top 0;

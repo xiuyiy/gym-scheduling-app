@@ -72,11 +72,24 @@ var jwtService = new jwtService(jwtInfo);
  */
 //http://localhost:3000/reservations?date=2018-03-10 --> get reservations given a day
 //http://localhost:3000/reservations --> get all reservations
-app.get('/reservations', function(req, res) {
+app.get('/reservations', function (req, res) {
 
     jwtService.validateJwt(req, res);
 
-    var resp = reservationFactory.getReservations(req.query, res);
+    if (req.query.returnUserInfo) {
+        //?returnUserInfo=true to join collections to get all user info
+        reservationFactory.getAllReservationsByDay(req.query.date)
+            .then(function (output) {
+                if (output) {
+                    console.log(output);
+                    res.status(200).json(output);
+                }
+
+            });
+    }
+    else {
+        var resp = reservationFactory.getReservations(req.query, res);
+    }
 });
 
 app.post('/reservations', function(req, res) {

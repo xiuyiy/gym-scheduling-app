@@ -64,7 +64,7 @@
                 views: {
                     '': {
                         templateUrl: 'views/summary.html',
-                        controller: 'summaryController'
+                        controller: 'reserveController'
                     }
                 }
             })

@@ -44,7 +44,8 @@ var userFactory = function(Schema, mongoose, connection, autoIncrement, jwtInfo)
         });
         //create a model
         // this.User = mongoose.model('User', UserSchema);
-        UserSchema.plugin(autoIncrement.plugin, 'User');
+        //removed auto index increment as this seems to break join. ObjectId accepts a 24-length-long hex string
+        // UserSchema.plugin(autoIncrement.plugin, 'User');
         UserSchema.index({
             _id: 1
         }, {

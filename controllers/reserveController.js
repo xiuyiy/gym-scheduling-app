@@ -1,6 +1,6 @@
 /**
-Created by Ming He on Feb 24, 2018
-**/
+ Created by Ming He on Feb 24, 2018
+ **/
 
 (function () {
 
@@ -10,6 +10,27 @@ Created by Ming He on Feb 24, 2018
         //var currentDate = new Date();
         //var className = "Barbell";
         // $scope.reservationUrl = "http://mac-mhe2.corp.microstrategy.com:3000/reservations";
+
+
+        $scope.getNavClass = function (currPage) {
+            if ($scope.isSummaryPage) {
+                if (currPage === 'myReservation') {
+                    return 'nav-item';
+                }
+                else {
+                    return 'nav-item active';
+                }
+            } else {
+                if (currPage === 'myReservation') {
+                    return 'nav-item active';
+                }
+                else {
+                    return 'nav-item';
+                }
+            }
+        };
+
+
         $scope.reservationUrl = "http://localhost:3000/reservations";
         $scope.getDisplayDate = function () {
             var d = new Date();
@@ -22,11 +43,6 @@ Created by Ming He on Feb 24, 2018
             $scope.weekday = WEEKDAY_NAMES[d.getDay()];
             $scope.day = d.getDate();
         }
-
-        $scope.getDisplayDate();
-
-
-        $scope.authInfo = JSON.parse($window.localStorage.getItem("authInfo"));
 
         $scope.formatDate = function (date) {
             if (!date) {
@@ -45,14 +61,6 @@ Created by Ming He on Feb 24, 2018
 
             return [year, month, day].join('-');
         };
-
-        $scope.today = $scope.formatDate();
-
-
-
-
-
-        // $httpProvide.defaults.headers.common = {'token': $scope.authInfo.token};
 
         $scope.getCurrentUserReservations = function () {
 
@@ -78,9 +86,6 @@ Created by Ming He on Feb 24, 2018
             });
         }
 
-        $scope.getCurrentUserReservations();
-
-
         $scope.generateReservations = function () {
             $http.get($scope.reservationUrl + "?date=" + $scope.today, {
                 headers: {'X-AuthToken': $scope.authInfo.token}
@@ -88,24 +93,37 @@ Created by Ming He on Feb 24, 2018
                 .then(function (response) {
                     $scope.oriReservations = response.data;
                     $scope.renderReservations();
-                    debugger;
                 }).catch(function (error) {
                 if (error.status === 403) {
                     $location.path('/login');
                 }
             })
         };
-        $scope.renderReservations = function() {
+
+        //this method will retrieve today's reservations along with its users
+        $scope.getReservationsAndUsers = function () {
+            $http.get($scope.reservationUrl + "?date=" + $scope.today + "&returnUserInfo=true", {
+                headers: {'X-AuthToken': $scope.authInfo.token}
+            }).then(function (response) {
+                $scope.reservationsUserInfos = response.data;
+            }).catch(function (error) {
+                if (error.status === 403) {
+                    $location.path('/login');
+                }
+            })
+        };
+
+        $scope.renderReservations = function () {
             $scope.totalNumber = 20;
             $scope.reservations = [];//0-19
             for (var i = 1; i <= $scope.totalNumber; i++) {
-                var res = $scope.oriReservations.filter(function(element){
+                var res = $scope.oriReservations.filter(function (element) {
                     return (element.spotId == i);
                 });
                 if (res.length > 0) {
-                    $scope.reservations[i-1] = res[0];
+                    $scope.reservations[i - 1] = res[0];
                 } else {
-                    $scope.reservations[i-1] = {};
+                    $scope.reservations[i - 1] = {};
                 }
             }
         };
@@ -134,11 +152,11 @@ Created by Ming He on Feb 24, 2018
             });
         }
 
-        $scope.submitReservation = function() {
+        $scope.submitReservation = function () {
 
-            if ($scope.reservations.some(function(element){
-                return (element.userId === $scope.authInfo.userId);
-            })) {
+            if ($scope.reservations.some(function (element) {
+                    return (element.userId === $scope.authInfo.userId);
+                })) {
                 $scope.reserveSuc = false;
                 $scope.reserveMessage = "Sorry you've already reserved.";
                 alert($scope.reserveMessage);
@@ -176,9 +194,9 @@ Created by Ming He on Feb 24, 2018
         $scope.selectSeat = function (index) {
             $scope.reserveMessage = null;
             //it is possible that user has userId==0
-            if ($scope.reservations[index].userId!==0 && !$scope.reservations[index].userId){
+            if ($scope.reservations[index].userId !== 0 && !$scope.reservations[index].userId) {
                 //selectedSeat ranging from 1-20
-                $scope.selectedSeat = index+1;
+                $scope.selectedSeat = index + 1;
                 $scope.clickReserve = true;
                 //only modify the spotId if the user is not enrolled
                 if (!$scope.myReservation.enrolled) {
@@ -188,10 +206,61 @@ Created by Ming He on Feb 24, 2018
                 //alert("The seat is already occupied!");
             }
         };
-        
-        $scope.logout = sessionService.logout($window, $location);
 
+        // $scope.logout = sessionService.logout($window, $location);
+
+
+        // function initScope() {
+
+        console.log('this is init');
+
+        var absUrl = $location.absUrl();
+        $scope.getDisplayDate();
+
+        $scope.isSummaryPage = absUrl.includes('/summary');
+        $scope.authInfo = JSON.parse($window.localStorage.getItem("authInfo"));
+
+        $scope.today = $scope.formatDate();
+
+        $scope.getCurrentUserReservations();
+
+        $scope.getReservationsAndUsers();
         $scope.generateReservations();
+        // }
+
+        // initScope();
+
+        // $scope.$on('$routeChangeUpdate', initScope);
+        // $scope.$on('$routeChangeSuccess', initScope);
+
+        $scope.goToSummaryPage = function () {
+            $location.path('/summary');
+        }
+
+        $scope.goToMyReservationPage = function () {
+            $location.path('/reserve');
+        }
+
+        $scope.removeUserReservation = function (userId) {
+            $http({
+                method: 'DELETE',
+                url: $scope.reservationUrl + "?date=" + $scope.today + "&userId=" + userId,
+                headers: {
+                    'X-AuthToken': $scope.authInfo.token
+                }
+            })
+                .then(function (response) {
+                    if (response) {
+                        $scope.getReservationsAndUsers();
+                        $scope.renderReservations();
+                    }
+                }).catch(function (error) {
+                if (error.status === 403) {
+                    $location.path('/login');
+                }
+            });
+        }
+
     };
 
     reserveController.$inject = injectParams;
