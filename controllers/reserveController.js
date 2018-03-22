@@ -212,8 +212,6 @@
 
         // function initScope() {
 
-        console.log('this is init');
-
         var absUrl = $location.absUrl();
         $scope.getDisplayDate();
 
