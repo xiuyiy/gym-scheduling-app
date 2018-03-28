@@ -5,7 +5,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mr-auto">
             <li class="nav-items">
                 <a class="nav-link" href="/#!/class">Calendar<span class="sr-only">(current)</span></a>
             </li>
@@ -16,6 +16,9 @@
                 <a class="nav-link" href="/#!/summary" ng-click="goToSummaryPage()">Reservation Summary</a>
             </li>
         </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <div class="nav-link btn btn-outline-secondary my-2 my-sm-0" href="/#!/login" ng-click="logout()">logout</div>
+        </form>
     </div>
 </nav>
 
@@ -66,14 +69,6 @@
                     </div>
                     <div>
                         <div style="margin: 10px auto;width:550px;">
-                            <!--<div style="width:450px;float:left;">-->
-                            <!--&lt;!&ndash;display $index+1 but actually click on $index&ndash;&gt;-->
-                            <!--<div ng-repeat="res in reservations track by $index" class="seats"-->
-                            <!--ng-class="res.userId>=0?'occupied':''"-->
-                            <!--ng-click="selectSeat($index)">-->
-                            <!--{{$index+1}}-->
-                            <!--</div>-->
-                            <!--</div>-->
                             <div style="width:400px;float:left;">
                                 <div>
                                     <span ng-class="!reservations[0].userId?'rounded-circle spots':'rounded-circle spots occupied-reserve-summary'"
