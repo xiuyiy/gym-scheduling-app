@@ -177,7 +177,7 @@
                 $scope.registerValidation.password2 = {
                     validationInputClass: 'form-control is-invalid',
                     validationFeedbackClass: 'invalid-feedback',
-                    validationMessage: 'Please make sure the password you re-entered matches the first one!'
+                    validationMessage: 'Please make sure the password you re-entered matches the previous one!'
                 };
                 isValid = false;
             }
