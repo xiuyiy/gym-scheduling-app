@@ -207,7 +207,10 @@
             }
         };
 
-        // $scope.logout = sessionService.logout($window, $location);
+        $scope.logout = function () {
+            $window.localStorage.removeItem("authInfo");
+            $location.path('/login');
+        }
 
 
         // function initScope() {

@@ -170,6 +170,11 @@ var classController = function ($scope, $rootScope, $interval, $location, $windo
             $location.path('/reserve');
         }
     }
+
+    $scope.logout = function () {
+        $window.localStorage.removeItem("authInfo");
+        $location.path('/login');
+    }
 }
 
 angular.module('gym-schedule-app').controller('classController', classController);
