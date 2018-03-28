@@ -18,28 +18,29 @@
             <form>
 
                 <div class="form-group">
-                    <label for="email">Email address</label>
+                    <label for="email">Email</label>
                     <input type="email" name="email" id="email" placeholder="Enter email"
-                           class="form-control" ng-model="currentUser.email">
+                           ng-class="loginValidation.email.validationInputClass" ng-model="currentUser.email">
+                    <div ng-class="loginValidation.email.validationFeedbackClass">
+                        {{loginValidation.email.validationMessage}}
+                    </div>
                 </div>
+
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" name="password" id="password" placeholder="Enter password"
-                           class="form-control" ng-model="currentUser.password">
+                           ng-class="loginValidation.password.validationInputClass" ng-model="currentUser.password">
+                    <div ng-class="loginValidation.password.validationFeedbackClass">
+                        {{loginValidation.password.validationMessage}}
+                    </div>
                 </div>
+
+                <button class="btn btn-primary" type="submit" ng-click="login()">Sign in!</button>
+                <!--<input id="submit_handle"  style="display: none">-->
             </form>
-            <button class="btn btn-primary" ng-click="login()">Sign in!</button>
 
 
         </div>
-
-
-        <!--<div class="well well-sm col-md-6 float-md-right" style="top: 150px">-->
-        <!--<blockquote class="blockquote">-->
-        <!--<p class="mb-0">The idea of lying on a beach as my main thing just sounds like the worst. It sounds horrible to me. I would go bonkers. I would have to be on serious drugs. I’d be super-duper bored. I like high intensity.</p>-->
-        <!--<footer class="blockquote-footer text-right"></footer>-->
-        <!--</blockquote>-->
-        <!--</div>-->
 
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div class="row col-md-6">
@@ -60,7 +61,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 

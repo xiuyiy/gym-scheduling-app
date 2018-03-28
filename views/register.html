@@ -1,13 +1,11 @@
 <!--this is register-->
 <!--<div style="text-align: center">-->
-    <!--<div>First Name: <input  type="text" name="firstName"/> </div>-->
-    <!--<div>Last Name: <input ng-model="newUser.lastName" type="text" name="lastName"></div>-->
-    <!--<div>Email: <input  ng-model="newUser.email" type="text" name="email"></div>-->
-    <!--<div>Password: <input ng-model="newUser.password" type="text", name="password"></div>-->
-    <!--<button class="btn btn-primary" ng-click="registerUser()">Register</button>-->
+<!--<div>First Name: <input  type="text" name="firstName"/> </div>-->
+<!--<div>Last Name: <input ng-model="newUser.lastName" type="text" name="lastName"></div>-->
+<!--<div>Email: <input  ng-model="newUser.email" type="text" name="email"></div>-->
+<!--<div>Password: <input ng-model="newUser.password" type="text", name="password"></div>-->
+<!--<button class="btn btn-primary" ng-click="registerUser()">Register</button>-->
 <!--</div>-->
-
-
 
 
 <div class="container">
@@ -15,44 +13,68 @@
     <div class="row">
         <div class="col-md-6">
             <h1>Register</h1>
-            <p class="lead">Already a member? Please <button class="btn-sm btn-link" ng-click="goToLoginPage()">sign in</button> instead.</p>
-            <div class="alert alert-success" ng-show="registerSuccess">An email has been sent to the email address you provided below.
+            <p class="lead">Already a member? Please
+                <button class="btn-sm btn-link" ng-click="goToLoginPage()">sign in</button>
+                instead.
+            </p>
+            <div class="alert alert-success" ng-show="registerSuccess">An email has been sent to the email address you
+                provided below.
                 Please check your email inbox and confirm your registration!</span></div>
-            <form data-toggle="validator" role="form">
+            <form>
                 <div class="form-group">
-                    <label for="firstName">First name</label>
-                    <input type="text" class="form-control" name="lastName" id="firstName"
+                    <label for="firstName">First Name</label>
+                    <input type="text" ng-class="registerValidation.firstName.validationInputClass" name="firstName"
+                           id="firstName"
                            placeholder="Enter first name" ng-model="newUser.firstName">
+                    <div ng-class="registerValidation.firstName.validationFeedbackClass">
+                        {{registerValidation.firstName.validationMessage}}
+                    </div>
                 </div>
                 <div class="form-groups">
-                    <label for="lastName">Last name</label>
-                    <input type="text" class="form-control" name="lastName" id="lastName"
+                    <label for="lastName">Last Name</label>
+                    <input type="text" ng-class="registerValidation.lastName.validationInputClass" name="lastName"
+                           id="lastName"
                            placeholder="Enter last name" ng-model="newUser.lastName">
+                    <div ng-class="registerValidation.lastName.validationFeedbackClass">
+                        {{registerValidation.lastName.validationMessage}}
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input type="email" class="form-control" name="email" id="email"
-                           placeholder="Enter email" ng-model="newUser.email" data-error="Sorry, the email address you provided is invalid" required>
+                <div class="form-groups">
+                    <label for="email">Email</label>
+                    <input type="email" ng-class="registerValidation.email.validationInputClass" name="email"
+                           id="email"
+                           placeholder="Enter email" ng-model="newUser.email">
+                    <div ng-class="registerValidation.email.validationFeedbackClass">
+                        {{registerValidation.email.validationMessage}}
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password"
+                    <input type="password" ng-class="registerValidation.password.validationInputClass" name="password"
+                           id="password"
                            placeholder="Enter password" ng-model="newUser.password">
+                    <div ng-class="registerValidation.password.validationFeedbackClass">
+                        {{registerValidation.password.validationMessage}}
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="password2">Re-enter password</label>
-                    <input type="password" class="form-control" name="password2" id="password2"
+                    <label for="password2">Re-enter Password</label>
+                    <input type="password" ng-class="registerValidation.password2.validationInputClass" name="password2"
+                           id="password2"
                            placeholder="Re-enter password" ng-model="newUser.password2">
+                    <div ng-class="registerValidation.password2.validationFeedbackClass">
+                        {{registerValidation.password2.validationMessage}}
+                    </div>
                 </div>
                 <div class="form-group" ng-show="isAdminPage">
                     <label for="adminQuestion">1 + 2 + 3 + 4 + 5 + ... = ?</label>
                     <input type="text" class="form-control" name="adminQuestion" id="adminQuestion"
                            placeholder="Answer" ng-model="adminAnswer">
                 </div>
-
+                <button class="btn btn-primary" type="submit" ng-click="registerUser()">Register!</button>
             </form>
-            <button class="btn btn-primary" ng-click="registerUser()">Register!</button>
+
         </div>
     </div>
 
