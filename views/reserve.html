@@ -12,7 +12,7 @@
             <li ng-class="getNavClass('myReservation')">
                 <a class="nav-link" href="/#!/reserve" ng-click="goToMyReservationPage()">My Reservation</a>
             </li>
-            <li ng-class="getNavClass('summary')">
+            <li ng-show="authInfo.isAdmin" ng-class="getNavClass('summary')">
                 <a class="nav-link" href="/#!/summary" ng-click="goToSummaryPage()">Reservation Summary</a>
             </li>
         </ul>
