@@ -234,7 +234,7 @@ var sendVerificationEmail = function(req, res) {
 
 app.get('/verify', function(req, res) {
     console.log(req.protocol + ":/" + req.get('host'));
-    if ((req.protocol + "://" + req.get('host')) == "http://localhost:3000") {
+    if ((req.protocol + "://" + req.get('host')) == "http://env-89392-elb-2129585381.us-east-1.elb.amazonaws.com:3000") {
         console.log("Domain is matched. Information is from Authentic email");
         userFactory.activateUser(req.query, res);
     } else {

@@ -4,7 +4,7 @@
     var summaryController = function ($scope, $rootScope, $http) {
 
 
-        $scope.reservationUrl = "http://localhost:3000/reservations";
+        $scope.reservationUrl = "http://env-89392-elb-2129585381.us-east-1.elb.amazonaws.com:3000/reservations";
 
         $scope.generateSummary = function() {
             debugger;
