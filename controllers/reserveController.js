@@ -10,7 +10,8 @@ Created by Ming He on Feb 24, 2018
         //var currentDate = new Date();
         //var className = "Barbell";
         // $scope.reservationUrl = "http://mac-mhe2.corp.microstrategy.com:3000/reservations";
-        $scope.reservationUrl = "http://localhost:3000/reservations";
+        // $scope.reservationUrl = "http://localhost:3000/reservations";
+        $scope.reservationUrl = "http://env-89392-elb-2129585381.us-east-1.elb.amazonaws.com:3000/reservations";
 
 
         $scope.authInfo = JSON.parse($window.localStorage.getItem("authInfo"));
