@@ -116,7 +116,7 @@ var userFactory = function(Schema, mongoose, connection, autoIncrement, jwtInfo)
                 console.log("email is verified");
                 res.status(302);
                 res.header({
-                        "Location": "http://localhost:8082/index.html#!/login"
+                        "Location": "http://env-89392-elb-2129585381.us-east-1.elb.amazonaws.com:8082/#!/login"
                     }
                 );
                 res.end();
