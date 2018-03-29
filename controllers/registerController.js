@@ -19,7 +19,7 @@
 
         $scope.registerSuccess = false;
 
-        $scope.backendUrl = "http://env-89392-elb-2129585381.us-east-1.elb.amazonaws.com:3000/";
+        $scope.backendUrl = "http://env-89392-elb-2129585381.us-east-1.elb.amazonaws.com:3001/";
 
 
         $scope.registerValidation = {

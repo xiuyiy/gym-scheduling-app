@@ -11,7 +11,7 @@
 
         $scope.loginError;
 
-        $scope.backendUrl = "http://env-89392-elb-2129585381.us-east-1.elb.amazonaws.com:3000/";
+        $scope.backendUrl = "http://env-89392-elb-2129585381.us-east-1.elb.amazonaws.com:3001/";
 
         var validateEmail = function(email) {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

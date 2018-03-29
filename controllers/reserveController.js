@@ -31,8 +31,8 @@
         };
 
 
-        // $scope.reservationUrl = "http://localhost:3000/reservations";
-        $scope.reservationUrl = "http://env-89392-elb-2129585381.us-east-1.elb.amazonaws.com:3000/reservations";
+        // $scope.reservationUrl = "http://localhost:3001/reservations";
+        $scope.reservationUrl = "http://env-89392-elb-2129585381.us-east-1.elb.amazonaws.com:3001/reservations";
         $scope.getDisplayDate = function () {
             var d = new Date();
             const MONTH_NAMES = ["January", "February", "March", "April", "May", "June",
