@@ -145,6 +145,8 @@
                         $scope.myReservation.enrolled = false;
                         $scope.clickReserve = false;
                         $scope.reserveMessage = "Cancellation succeed!"
+
+                        $scope.generateReservations();
                     }
                 }).catch(function (error) {
                 if (error.status === 403) {
@@ -169,7 +171,6 @@
                     spotId: $scope.selectedSeat,
                     classId: 1//to-do
                 }
-                console.log(body);
                 $http.post($scope.reservationUrl, body, {
                     headers: {
                         'X-AuthToken': $scope.authInfo.token
@@ -254,7 +255,7 @@
                 .then(function (response) {
                     if (response) {
                         $scope.getReservationsAndUsers();
-                        $scope.renderReservations();
+                        $scope.generateReservations();
                     }
                 }).catch(function (error) {
                 if (error.status === 403) {
