@@ -78,7 +78,7 @@ app.get('/reservations', function (req, res) {
 
     if (req.query.returnUserInfo) {
         //?returnUserInfo=true to join collections to get all user info
-        reservationFactory.getAllReservationsByDay(req.query.date)
+        reservationFactory. getAllReservationsByDay(req.query.date)
             .then(function (output) {
                 if (output) {
                     console.log(output);
@@ -154,84 +154,49 @@ app.post('/users', function(req, res) {
     sendVerificationEmail(req, res);
 });
 
-// app.post('/login', function(req, res) {
-//     var query = req.body;
-//     console.log(query);
-//     if (!query || !query.email || !query.password) {
-//         res.status(400).json("missing parameters");
-//     }
-//     var output = userFactory.getUserByEmail(query.email);
-//     console.log(output);
-//     output.then(function(users) {
-//         if (!users || users.length == 0) { //user email is not correct
-//             res.status(401).json("user's email does not exist!");
-//         } else if (users.length > 1) {
-//             res.status(500).json("internal server error");
-//         } else if (!users[0].isActive) {
-//             res.status(401).json("user's account has not been activated!");
-//         } else {
-//             bcrypt.compare(query.password, users[0].password, function(err, result) {
-//                 if (err) {
-//                     res.status(500).json("your password is incorrect");
-//                 }
-//                 if (result) {
-//                     //res.status(200).json("login successfully.");
-//                     var token = userFactory.generateJwt();
-//                     var responseBody = {
-//                         token: token,
-//                         userId: users[0]._id,
-//                         email: users[0].email,
-//                         firstName: users[0].firstName,
-//                         lastName: users[0].lastName,
-//                         isAdmin: users[0].isAdmin,
-//                         isActive: users[0].isActive
-//                     };
-//                     res.status(200).send(responseBody);
-//                 }
-//             });
-//         }
-//     }).catch(function(error) {
-//         console.log(error);
-//         res.status(500).json("internal server error");
-//     });
-// });
-
-app.post('/login', function (req, res) {
+app.post('/login', function(req, res) {
     var query = req.body;
     console.log(query);
     if (!query || !query.email || !query.password) {
         res.status(400).json("missing parameters");
     }
-    var user = userFactory.getUserByEmail(query.email, res);
-    console.log(user);
-
-    //check user returned from database to be able to set the response properly
-    if (!user) { //user email is not correct
-        res.status(401).json("user's email does not exist!");
-    } else if (!user.isActive) {
-        res.status(401).json("user's account has not been activated!");
-    } else {
-        bcrypt.compare(query.password, user.password, function (err, result) {
-            if (err) {
-                res.status(500).json("your password is incorrect");
-            }
-            if (result) {
-                //res.status(200).json("login successfully.");
-                var token = userFactory.generateJwt();
-                var responseBody = {
-                    token: token,
-                    userId: user._id,
-                    email: user.email,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    isAdmin: user.isAdmin,
-                    isActive: user.isActive
-                };
-                res.status(200).send(responseBody);
-            }
-        });
-    }
+    var output = userFactory.getUserByEmail(query.email);
+    // console.log(output);
+    output.then(function(users) {
+        console.log(users);
+        if (!users || users.length == 0) { //user email is not correct
+            res.status(401).json("user's email does not exist!");
+        } else if (users.length > 1) {
+            res.status(500).json("internal server error");
+        } else if (!users[0].isActive) {
+            res.status(401).json("user's account has not been activated!");
+        } else {
+            bcrypt.compare(query.password, users[0].password, function(err, result) {
+                if (err) {
+                    res.status(500).json("your password is incorrect");
+                }
+                if (result) {
+                    //res.status(200).json("login successfully.");
+                    var token = userFactory.generateJwt();
+                    var responseBody = {
+                        token: token,
+                        userId: users[0]._id,
+                        email: users[0].email,
+                        firstName: users[0].firstName,
+                        lastName: users[0].lastName,
+                        isAdmin: users[0].isAdmin,
+                        isActive: users[0].isActive
+                    };
+                    res.status(200).send(responseBody);
+                }
+            });
+        }
+    }).catch(function(error) {
+        console.log(error);
+        res.status(500).json("internal server error");
+    });
 });
+
 
 var smtpTransport = nodemailer.createTransport({
     service: "Gmail",
