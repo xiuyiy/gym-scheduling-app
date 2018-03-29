@@ -60,12 +60,17 @@ var userFactory = function(Schema, mongoose, connection, autoIncrement, jwtInfo)
         });
     };
 
-    this.getUserByEmail = function(email) {
+    this.getUserByEmail = function(email, res) {
         var query = {
             "email": email
         };
         // return this.User.find(query).exec();
-        return this.User.findOne(query);
+        return this.User.findOne(query, function (error, output) {
+            if(error) { res.status(500).json("internal server error");}
+            if(output) {
+                return output;
+            }
+        });
     };
 
     this.insertUser = function(requestBody, res) {
