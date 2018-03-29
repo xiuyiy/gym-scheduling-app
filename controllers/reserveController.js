@@ -94,6 +94,8 @@
                 .then(function (response) {
                     $scope.oriReservations = response.data;
                     $scope.renderReservations();
+
+
                 }).catch(function (error) {
                 if (error.status === 403) {
                     $location.path('/login');
@@ -123,6 +125,10 @@
                 });
                 if (res.length > 0) {
                     $scope.reservations[i - 1] = res[0];
+                    if(res[0].userId === $scope.authInfo.userId) {
+                        $scope.myReservation.spotId = res[0].spotId;
+                        $scope.myReservation.enrolled = true;
+                    }
                 } else {
                     $scope.reservations[i - 1] = {};
                 }
@@ -199,12 +205,7 @@
                 //selectedSeat ranging from 1-20
                 $scope.selectedSeat = index + 1;
                 $scope.clickReserve = true;
-                //only modify the spotId if the user is not enrolled
-                if (!$scope.myReservation.enrolled) {
-                    $scope.myReservation.spotId = $scope.selectedSeat;
-                }
-            } else {
-                //alert("The seat is already occupied!");
+                $scope.myReservation.spotId = $scope.selectedSeat;
             }
         };
 
@@ -214,7 +215,6 @@
         }
 
 
-        // function initScope() {
 
         var absUrl = $location.absUrl();
         $scope.getDisplayDate();
@@ -228,12 +228,6 @@
 
         $scope.getReservationsAndUsers();
         $scope.generateReservations();
-        // }
-
-        // initScope();
-
-        // $scope.$on('$routeChangeUpdate', initScope);
-        // $scope.$on('$routeChangeSuccess', initScope);
 
         $scope.goToSummaryPage = function () {
             $location.path('/summary');
