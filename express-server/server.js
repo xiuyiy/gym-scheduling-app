@@ -202,7 +202,7 @@ app.post('/login', function (req, res) {
     if (!query || !query.email || !query.password) {
         res.status(400).json("missing parameters");
     }
-    var user = userFactory.getUserByEmail(query.email);
+    var user = userFactory.getUserByEmail(query.email, res);
     console.log(user);
 
     //check user returned from database to be able to set the response properly
