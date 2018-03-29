@@ -64,7 +64,8 @@ var userFactory = function(Schema, mongoose, connection, autoIncrement, jwtInfo)
         var query = {
             "email": email
         };
-        return this.User.find(query).exec();
+        console.log("testing for fun");
+        return this.User.find(query).e;xec();
     };
 
     this.insertUser = function(requestBody, res) {
