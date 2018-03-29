@@ -140,7 +140,6 @@
             })
                 .then(function (response) {
                     if (response) {
-                        debugger;
                         $scope.myReservation.spotId = -1;
                         $scope.myReservation.enrolled = false;
                         $scope.clickReserve = false;
@@ -195,8 +194,8 @@
         //index ranging from 0-19
         $scope.selectSeat = function (index) {
             $scope.reserveMessage = null;
-            //it is possible that user has userId==0
-            if ($scope.reservations[index].userId !== 0 && !$scope.reservations[index].userId) {
+            //it is possible that user has userId==0, also only do so when user haven't been enrolled
+            if ($scope.reservations[index].userId !== 0 && !$scope.reservations[index].userId && !$scope.myReservation.enrolled) {
                 //selectedSeat ranging from 1-20
                 $scope.selectedSeat = index + 1;
                 $scope.clickReserve = true;
