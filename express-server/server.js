@@ -168,7 +168,7 @@ app.post('/login', function(req, res) {
         } else if (users.length > 1) {
             res.status(500).json("internal server error");
         } else if (!users[0].isActive) {
-            res.status(401).json("We have sent you an email with an activiation link. It might be in the spam or junk folder.");
+            res.status(401).json("We have sent you an email with an activiation link. It might be in the spam or junk folder. Please click on the verfication link to active your account!");
         } else {
             bcrypt.compare(query.password, users[0].password, function(err, result) {
                 // result === true
