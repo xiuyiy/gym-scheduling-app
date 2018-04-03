@@ -29,14 +29,15 @@
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" name="password" id="password" placeholder="Enter password"
-                           ng-class="loginValidation.password.validationInputClass" ng-model="currentUser.password" data-toggle="tooltip" data-placement="bottom" title="Password needs to be at least 8-digit long.">
+                           ng-class="loginValidation.password.validationInputClass" ng-model="currentUser.password"
+                           data-toggle="tooltip" data-placement="bottom"
+                           title="Please know that the password needs to be at least 8-digit long.">
                     <div ng-class="loginValidation.password.validationFeedbackClass">
                         {{loginValidation.password.validationMessage}}
                     </div>
                 </div>
 
                 <button class="btn btn-primary" type="submit" ng-click="login()">Sign in!</button>
-                <!--<input id="submit_handle"  style="display: none">-->
             </form>
 
 
