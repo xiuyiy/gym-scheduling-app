@@ -141,6 +141,22 @@ app.post('/users', function(req, res) {
     if (!query || !query.firstName || !query.lastName || !query.email || !query.password) {
         res.status(400).json("missing parameters");
     }
+    //check to see if user already exists in the database first, otherwise no email will be sent
+    var output = userFactory.getUserByEmail(query.email)
+        .then(function (users) {
+            if (users && users.length >= 1) {
+                //this means the user already exists in the database and the acct. has been activated.
+                if (users[0].isActive) {
+                    //409 is conflict
+                    res.status(409).send(users[0]);
+                    return;
+                } else if (!users[0].isActive) {
+                    //user registered but not activated.
+                    res.status(409).send(users[0])
+                    return;
+                }
+            }
+        })
     query.verificationCode = verificationCode;
     bcrypt.hash(query.password, saltRounds, function(err, hash) {
         if (err) {
@@ -160,15 +176,14 @@ app.post('/login', function(req, res) {
     if (!query || !query.email || !query.password) {
         res.status(400).json("missing parameters");
     }
-    var output = userFactory.getUserByEmail(query.email)
+    var output = userFactory.getUserByEmail(query.email);
     output.then(function(users) {
-        console.log(users);
         if (!users || users.length == 0) { //user email is not correct
             res.status(401).json("The email address you provided does not exist!");
         } else if (users.length > 1) {
             res.status(500).json("internal server error");
         } else if (!users[0].isActive) {
-            res.status(401).json("We have sent you an email with an activiation link. It might be in the spam or junk folder. Please click on the verfication link to active your account!");
+            res.status(401).json("We have sent you an email with an activation link. It might be in the spam or junk folder. Please click on the verfication link to active your account!");
         } else {
             bcrypt.compare(query.password, users[0].password, function(err, result) {
                 // result === true

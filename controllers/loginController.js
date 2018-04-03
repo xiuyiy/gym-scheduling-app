@@ -4,6 +4,10 @@
 
     var loginController = function ($scope, $rootScope, $location, $http, $window) {
 
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
         $scope.currentUser = {
             email: null,
             password: null

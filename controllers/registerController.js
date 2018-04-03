@@ -17,6 +17,10 @@
             password: null,
         };
 
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
         $scope.registerSuccess = false;
 
         $scope.backendUrl = "http://env-89392-elb-2129585381.us-east-1.elb.amazonaws.com:3001/";
@@ -200,8 +204,17 @@
             }
             $http.post($scope.backendUrl + "users", $scope.newUser)
                 .then(function (response) {
-                    if(response.status === 200) {
+                    if (response.status === 200) {
                         $scope.registerSuccess = true;
+                        //user exists in the database already
+                    } else if (response.status === 409) {
+                        $scope.registerSuccess = false;
+                        var returnedUser = response.data;
+                        if (returnedUser.isActive) {
+                            $scope.activeUserExists = true;
+                        } else {
+                            $scope.userExistsButNotActivated = true;
+                        }
                     }
                 }).catch(function (response) {
                 alert(response.data);

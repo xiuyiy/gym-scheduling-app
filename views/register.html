@@ -1,13 +1,3 @@
-<!--this is register-->
-<!--<div style="text-align: center">-->
-<!--<div>First Name: <input  type="text" name="firstName"/> </div>-->
-<!--<div>Last Name: <input ng-model="newUser.lastName" type="text" name="lastName"></div>-->
-<!--<div>Email: <input  ng-model="newUser.email" type="text" name="email"></div>-->
-<!--<div>Password: <input ng-model="newUser.password" type="text", name="password"></div>-->
-<!--<button class="btn btn-primary" ng-click="registerUser()">Register</button>-->
-<!--</div>-->
-
-
 <div class="container">
 
     <div class="row">
@@ -19,7 +9,11 @@
             </p>
             <div class="alert alert-success" ng-show="registerSuccess">An email has been sent to the email address you
                 provided below.
-                Please check your email inbox and confirm your registration!</span></div>
+                Please check your email inbox and confirm your registration! (The email might appear in the junk or spam folder.)</span></div>
+            <div class="alert alert-danger" ng-show="activeUserExists">A user with provided email already exists in the
+                system. Please go to login page and login.</span></div>
+            <div class="alert alert-danger" ng-show="userExistsButNotActivated">A user with provided email already exists in the
+                system. Please check your email and click on the activation link. (The email might appear in the junk or spam folder.)</span></div>
             <form>
                 <div class="form-group">
                     <label for="firstName">First Name</label>
@@ -52,7 +46,7 @@
                     <label for="password">Password</label>
                     <input type="password" ng-class="registerValidation.password.validationInputClass" name="password"
                            id="password"
-                           placeholder="Enter password" ng-model="newUser.password">
+                           placeholder="Enter password" ng-model="newUser.password" data-toggle="tooltip" data-placement="right" title="Password needs to be at least 8-digit long.">
                     <div ng-class="registerValidation.password.validationFeedbackClass">
                         {{registerValidation.password.validationMessage}}
                     </div>
@@ -62,7 +56,7 @@
                     <label for="password2">Re-enter Password</label>
                     <input type="password" ng-class="registerValidation.password2.validationInputClass" name="password2"
                            id="password2"
-                           placeholder="Re-enter password" ng-model="newUser.password2">
+                           placeholder="Re-enter password" ng-model="newUser.password2" data-toggle="tooltip" data-placement="right" title="Re-entered password needs to be at least 8-digit long and matches the previous password you entered.">
                     <div ng-class="registerValidation.password2.validationFeedbackClass">
                         {{registerValidation.password2.validationMessage}}
                     </div>
