@@ -227,10 +227,12 @@ var sendVerificationEmail = function (req, res) {
     mailOptions = {
         to: req.body.email,
         subject: "Welcome to B.T. Labs!",
-        html: "<div>Hello there, "+ req.body.firstName + "</div>" +
-        "<div>We are so excited to welcome you into our community at B.T. Labs! </div>" +
-        "<div>To complete the last step of signing up, please click on the link below to activate your account! </div>" +
-        "<div><a href=" + link + ">Click here to activiate your account!</a></div>"
+        html: "<html> <head> </head> <body>" +
+        "<div>Hello there, "+ req.body.firstName + "</div>" +
+        "<p>We are so excited to welcome you into our community at B.T. Labs! </br>" +
+        "To complete the last step of signing up, please click on the link below to activate your account! </br>" +
+        "<div><a href=" + link + ">Click here to activate your account!</a></div>"
+        + "</body></html>"
     }
     smtpTransport.sendMail(mailOptions, function (error, response) {
         if (error) {
