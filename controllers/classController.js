@@ -74,7 +74,7 @@ var classController = function ($scope, $rootScope, $interval, $location, $windo
 
         {},//41
         {
-            "title": "BARBELL STRENGTH",
+            "title": "BARBELL STRENGTH (reservation starts at 1PM)",
             "ps": "20 people max",
             "instructor": "IULIIA",
             "startTime": "5:15 PM",
@@ -84,7 +84,7 @@ var classController = function ($scope, $rootScope, $interval, $location, $windo
         }, //42
         {}, //43
         {
-            "title": "BARBELL STRENGTH",
+            "title": "BARBELL STRENGTH (reservation starts at 1PM)",
             "ps": "20 people max",
             "instructor": "IULIIA",
             "startTime": "5:15 PM",
@@ -145,20 +145,20 @@ var classController = function ($scope, $rootScope, $interval, $location, $windo
         var weekday = d.getDay();
         var hour = d.getHours();
 
-        // if ((weekday == 2 || weekday == 1) && (hour >= 13 && hour <= 24)) {
+        if ((weekday == 2 || weekday == 4) && (hour >= 13 && hour <= 17)) {
 
-        angular.forEach($scope.classSchedule, function (value, key) {
+            angular.forEach($scope.classSchedule, function (value, key) {
 
 
-            // if ((value.openReservation === 2 && weekday === 2) || (value.openReservation === 4 && weekday === 1)) {
-            if ((value.openReservation === 2) || (value.openReservation === 4)) {
+                if ((value.openReservation === 2 && weekday === 2) || (value.openReservation === 4 && weekday === 4)) {
+                    // if ((value.openReservation === 2) || (value.openReservation === 4)) {
 
-                $scope.classSchedule[key].titleStyle = 'lime-title';
-            } else {
-                $scope.classSchedule[key].titleStyle = 'black-title';
-            }
-        });
-        // }
+                    $scope.classSchedule[key].titleStyle = 'lime-title';
+                } else {
+                    $scope.classSchedule[key].titleStyle = 'black-title';
+                }
+            });
+        }
     };
 
     $scope.autoRefresh = $interval($scope.flipColor(), 3000);
