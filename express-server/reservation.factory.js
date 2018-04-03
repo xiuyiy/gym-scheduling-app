@@ -45,7 +45,7 @@ var Factory = function (Schema, mongoose, connection, autoIncrement, jwtInfo) {
                 res.status(404).json("not found");
             }
             if (output) {
-                res.json(output);
+                res.status(200).send(output);
             }
         });
     };

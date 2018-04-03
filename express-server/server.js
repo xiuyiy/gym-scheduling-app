@@ -160,23 +160,19 @@ app.post('/login', function(req, res) {
     if (!query || !query.email || !query.password) {
         res.status(400).json("missing parameters");
     }
-    var output = userFactory.getUserByEmail(query.email);
-    // console.log(output);
+    var output = userFactory.getUserByEmail(query.email)
     output.then(function(users) {
         console.log(users);
         if (!users || users.length == 0) { //user email is not correct
-            res.status(401).json("user's email does not exist!");
+            res.status(401).json("The email address you provided does not exist!");
         } else if (users.length > 1) {
             res.status(500).json("internal server error");
         } else if (!users[0].isActive) {
-            res.status(401).json("user's account has not been activated!");
+            res.status(401).json("We have sent you an email with an activiation link. It might be in the spam or junk folder. Please click on the verfication link to active your account!");
         } else {
             bcrypt.compare(query.password, users[0].password, function(err, result) {
-                if (err) {
-                    res.status(500).json("your password is incorrect");
-                }
+                // result === true
                 if (result) {
-                    //res.status(200).json("login successfully.");
                     var token = userFactory.generateJwt();
                     var responseBody = {
                         token: token,
@@ -188,6 +184,8 @@ app.post('/login', function(req, res) {
                         isActive: users[0].isActive
                     };
                     res.status(200).send(responseBody);
+                } else {
+                    res.status(500).json("The password provided is incorrect!");
                 }
             });
         }
