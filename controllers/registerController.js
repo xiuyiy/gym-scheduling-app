@@ -190,6 +190,13 @@
             return isValid;
 
         }
+        
+        var settingAllAlertToFalse = function () {
+            $scope.registerSuccess = false;
+            $scope.activeUserExists = false;
+            $scope.userExistsButNotActivated = false;
+        }
+
         $scope.registerUser = function () {
 
             //form validation
@@ -205,12 +212,13 @@
             $http.post($scope.backendUrl + "users", $scope.newUser)
                 .then(function (response) {
                     if (response.status === 200) {
+                        settingAllAlertToFalse();
                         $scope.registerSuccess = true;
                         //user exists in the database already
                     }
                 }).catch(function (response) {
                 if (response.status === 409) {
-                    $scope.registerSuccess = false;
+                    settingAllAlertToFalse();
                     var returnedUser = response.data;
                     if (returnedUser.isActive) {
                         $scope.activeUserExists = true;

@@ -42,7 +42,7 @@ var jwtInfo = {
 }
 
 app.use(bodyParser.json());
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     //set CORS headers
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-AuthToken");
@@ -65,8 +65,6 @@ userFactory.createUserSchema();
 var jwtService = new jwtService(jwtInfo);
 
 
-
-
 /**
  * reservation APIs
  */
@@ -78,7 +76,7 @@ app.get('/reservations', function (req, res) {
 
     if (req.query.returnUserInfo) {
         //?returnUserInfo=true to join collections to get all user info
-        reservationFactory. getAllReservationsByDay(req.query.date)
+        reservationFactory.getAllReservationsByDay(req.query.date)
             .then(function (output) {
                 if (output) {
                     console.log(output);
@@ -92,7 +90,7 @@ app.get('/reservations', function (req, res) {
     }
 });
 
-app.post('/reservations', function(req, res) {
+app.post('/reservations', function (req, res) {
     jwtService.validateJwt(req, res);
     var resp = reservationFactory.insertReservation(req.body, res);
 });
@@ -112,7 +110,7 @@ app.delete('/reservations', function (req, res) {
  * 3. passing ?email=xxx@email.com, user with email address equals to xxx@email.com will be returned
  * ...
  */
-app.get('/users', function(req, res) {
+app.get('/users', function (req, res) {
 
     //verify jwt
     jwtService.validateJwt(req, res);
@@ -133,7 +131,7 @@ body required
     lastName: String,
 }
 */
-app.post('/users', function(req, res) {
+app.post('/users', function (req, res) {
 
     var verificationCode = randomstring.generate(18);
 
@@ -149,37 +147,36 @@ app.post('/users', function(req, res) {
                 if (users[0].isActive) {
                     //409 is conflict
                     res.status(409).send(users[0]);
-                    res.end();
-                    return;
                 } else if (!users[0].isActive) {
                     //user registered but not activated.
                     res.status(409).send(users[0]);
-                    res.end();
-                    return;
                 }
+                //only sending out emails if the user does not exist in the database
+            } else {
+                query.verificationCode = verificationCode;
+                bcrypt.hash(query.password, saltRounds, function (err, hash) {
+                    if (err) {
+                        res.status(500).json("internal server error");
+                    }
+                    if (hash) {
+                        query.hashPwd = hash;
+                        userFactory.insertUser(query, res);
+                    }
+                });
+                sendVerificationEmail(req, res);
             }
         })
-    query.verificationCode = verificationCode;
-    bcrypt.hash(query.password, saltRounds, function(err, hash) {
-        if (err) {
-            res.status(500).json("internal server error");
-        }
-        if (hash) {
-            query.hashPwd = hash;
-            userFactory.insertUser(query, res);
-        }
-    });
-    sendVerificationEmail(req, res);
+
 });
 
-app.post('/login', function(req, res) {
+app.post('/login', function (req, res) {
     var query = req.body;
     console.log(query);
     if (!query || !query.email || !query.password) {
         res.status(400).json("missing parameters");
     }
     var output = userFactory.getUserByEmail(query.email);
-    output.then(function(users) {
+    output.then(function (users) {
         if (!users || users.length == 0) { //user email is not correct
             res.status(401).json("The email address you provided does not exist!");
         } else if (users.length > 1) {
@@ -187,7 +184,7 @@ app.post('/login', function(req, res) {
         } else if (!users[0].isActive) {
             res.status(401).json("We have sent you an email with an activation link. It might be in the spam or junk folder. Please click on the verfication link to active your account!");
         } else {
-            bcrypt.compare(query.password, users[0].password, function(err, result) {
+            bcrypt.compare(query.password, users[0].password, function (err, result) {
                 // result === true
                 if (result) {
                     var token = userFactory.generateJwt();
@@ -206,7 +203,7 @@ app.post('/login', function(req, res) {
                 }
             });
         }
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.log(error);
         res.status(500).json("internal server error");
     });
@@ -223,7 +220,7 @@ var smtpTransport = nodemailer.createTransport({
 var rand, mailOptions, host, link;
 
 
-var sendVerificationEmail = function(req, res) {
+var sendVerificationEmail = function (req, res) {
     host = req.get('host');
     link = "http://" + req.get('host') + "/verify?to=" + req.body.email + "&verificationCode=" + req.body.verificationCode;
     console.log(link);
@@ -232,7 +229,7 @@ var sendVerificationEmail = function(req, res) {
         subject: "Please confirm your Email account",
         html: "Hello,<br> Please Click on the link to verify your email.<br><a href=" + link + ">Click here to verify</a>"
     }
-    smtpTransport.sendMail(mailOptions, function(error, response) {
+    smtpTransport.sendMail(mailOptions, function (error, response) {
         if (error) {
             console.log(error);
             res.end("error");
@@ -244,7 +241,7 @@ var sendVerificationEmail = function(req, res) {
 }
 
 
-app.get('/verify', function(req, res) {
+app.get('/verify', function (req, res) {
     console.log(req.protocol + ":/" + req.get('host'));
     if ((req.protocol + "://" + req.get('host')) == "http://env-89392-elb-2129585381.us-east-1.elb.amazonaws.com:3001") {
         console.log("Domain is matched. Information is from Authentic email");
