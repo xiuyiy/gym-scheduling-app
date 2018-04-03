@@ -207,17 +207,19 @@
                     if (response.status === 200) {
                         $scope.registerSuccess = true;
                         //user exists in the database already
-                    } else if (response.status === 409) {
-                        $scope.registerSuccess = false;
-                        var returnedUser = response.data;
-                        if (returnedUser.isActive) {
-                            $scope.activeUserExists = true;
-                        } else {
-                            $scope.userExistsButNotActivated = true;
-                        }
                     }
                 }).catch(function (response) {
-                alert(response.data);
+                if (response.status === 409) {
+                    $scope.registerSuccess = false;
+                    var returnedUser = response.data;
+                    if (returnedUser.isActive) {
+                        $scope.activeUserExists = true;
+                    } else {
+                        $scope.userExistsButNotActivated = true;
+                    }
+                }else{
+                    alert(response.data);
+                }
             });
 
         }

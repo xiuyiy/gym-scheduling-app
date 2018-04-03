@@ -149,10 +149,12 @@ app.post('/users', function(req, res) {
                 if (users[0].isActive) {
                     //409 is conflict
                     res.status(409).send(users[0]);
+                    res.end();
                     return;
                 } else if (!users[0].isActive) {
                     //user registered but not activated.
-                    res.status(409).send(users[0])
+                    res.status(409).send(users[0]);
+                    res.end();
                     return;
                 }
             }
