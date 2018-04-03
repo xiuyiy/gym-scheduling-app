@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" placeholder="Enter email"
-                           ng-class="loginValidation.email.validationInputClass" ng-model="currentUser.email">
+                           ng-class="loginValidation.email.validationInputClass" ng-model="currentUser.email"/>
                     <div ng-class="loginValidation.email.validationFeedbackClass">
                         {{loginValidation.email.validationMessage}}
                     </div>
@@ -29,9 +29,7 @@
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" name="password" id="password" placeholder="Enter password"
-                           ng-class="loginValidation.password.validationInputClass" ng-model="currentUser.password"
-                           data-toggle="tooltip" data-placement="bottom"
-                           title="Please know that the password needs to be at least 8-digit long.">
+                           ng-class="loginValidation.password.validationInputClass" ng-model="currentUser.password">
                     <div ng-class="loginValidation.password.validationFeedbackClass">
                         {{loginValidation.password.validationMessage}}
                     </div>

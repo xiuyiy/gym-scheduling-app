@@ -74,7 +74,7 @@ var classController = function ($scope, $rootScope, $interval, $location, $windo
 
         {},//41
         {
-            "title": "BARBELL STRENGTH (reservation starts at 1PM)",
+            "title": "BARBELL STRENGTH (reservation starts at 1PM on Tue)",
             "ps": "20 people max",
             "instructor": "IULIIA",
             "startTime": "5:15 PM",
@@ -84,7 +84,7 @@ var classController = function ($scope, $rootScope, $interval, $location, $windo
         }, //42
         {}, //43
         {
-            "title": "BARBELL STRENGTH (reservation starts at 1PM)",
+            "title": "BARBELL STRENGTH (reservation starts at 1PM on Thu)",
             "ps": "20 people max",
             "instructor": "IULIIA",
             "startTime": "5:15 PM",

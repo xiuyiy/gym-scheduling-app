@@ -161,7 +161,7 @@
 
 
             <div style="overflow: scroll; height: 400px;" class="row">
-                <div ng-class="reservationsUserInfos.size > 10 ? 'col-md-6':'col-md-12'">
+                <div class="col-md-12">
                     <div class="row font-weight-bold"
                          style="border-bottom: 1px solid #ccc; padding-top: 6px; padding-bottom: 6px">
 
@@ -169,28 +169,28 @@
                         <div class="col">Name</div>
                         <div class="col">Action</div>
                     </div>
-                    <div class="row font-weight-light" ng-repeat="reservation in reservationsUserInfos | limitTo:10:0 | orderBy : 'spotId'"
+                    <div class="row font-weight-light" ng-repeat="reservation in reservationsUserInfos | orderBy : 'spotId'"
                          style="border-bottom: 1px solid #ccc; padding-top: 6px;padding-bottom: 6px">
                         <div class="col font-weight-normal">{{reservation.spotId}}</div>
                         <div class="col">{{reservation.userId.firstName}} {{reservation.userId.lastName}}</div>
                         <div class="col btn-link" ng-click="removeUserReservation(reservation.userId._id)">remove</div>
                     </div>
                 </div>
-                <div class="col-md-6" ng-show="reservationsUserInfos.size > 10">
-                    <div class="row font-weight-bold"
-                         style="border-bottom: 1px solid #ccc; border-left: 1px solid #ccc; padding-top: 6px;padding-bottom: 6px">
+                <!--<div class="col-md-6" ng-show="reservationsUserInfos.size > 10">-->
+                    <!--<div class="row font-weight-bold"-->
+                         <!--style="border-bottom: 1px solid #ccc; border-left: 1px solid #ccc; padding-top: 6px;padding-bottom: 6px">-->
 
-                        <div class="col">Spot</div>
-                        <div class="col">Name</div>
-                        <div class="col">Action</div>
-                    </div>
-                    <div class="row font-weight-light" ng-repeat="reservation in reservationsUserInfos | limitTo:10:10 | orderBy : 'spotId'"
-                         style="border-bottom: 1px solid #ccc;  border-left: 1px solid #ccc;padding-top: 6px;padding-bottom: 6px">
-                        <div class="col font-weight-normal">{{reservation.spotId}}</div>
-                        <div class="col">{{reservation.userId.firstName}} {{reservation.userId.lastName}}</div>
-                        <div class="col btn-link" ng-click="removeUserReservation(reservation.userId._id)">remove</div>
-                    </div>
-                </div>
+                        <!--<div class="col">Spot</div>-->
+                        <!--<div class="col">Name</div>-->
+                        <!--<div class="col">Action</div>-->
+                    <!--</div>-->
+                    <!--<div class="row font-weight-light" ng-repeat="reservation in reservationsUserInfos | limitTo:10:10 | orderBy : 'spotId'"-->
+                         <!--style="border-bottom: 1px solid #ccc;  border-left: 1px solid #ccc;padding-top: 6px;padding-bottom: 6px">-->
+                        <!--<div class="col font-weight-normal">{{reservation.spotId}}</div>-->
+                        <!--<div class="col">{{reservation.userId.firstName}} {{reservation.userId.lastName}}</div>-->
+                        <!--<div class="col btn-link" ng-click="removeUserReservation(reservation.userId._id)">remove</div>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
