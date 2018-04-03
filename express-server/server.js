@@ -226,8 +226,11 @@ var sendVerificationEmail = function (req, res) {
     console.log(link);
     mailOptions = {
         to: req.body.email,
-        subject: "Please confirm your Email account",
-        html: "Hello,<br> Please Click on the link to verify your email.<br><a href=" + link + ">Click here to verify</a>"
+        subject: "Welcome to B.T. Labs!",
+        html: "<div>Hello there, "+ req.firstName + "</div>" +
+        "<p>We are so excited to welcome you into our community at B.T. Labs! </br>" +
+        "To complete the last step of signing up, please click on the link below to activate your account! </br>" +
+        "<a href=" + link + ">Click here to activiate your account!</a></p>"
     }
     smtpTransport.sendMail(mailOptions, function (error, response) {
         if (error) {
