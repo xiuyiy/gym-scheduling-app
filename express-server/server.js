@@ -16,6 +16,7 @@ var autoIncrement = require('mongoose-auto-increment');
 var randomstring = require("randomstring");
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
+var gzippo = require('gzippo');
 
 /**
  * Constant variables
@@ -92,6 +93,7 @@ app.get('/reservations', function (req, res) {
 
 app.post('/reservations', function (req, res) {
     jwtService.validateJwt(req, res);
+    getReservationGivenDayAndSpot(req)
     var resp = reservationFactory.insertReservation(req.body, res);
 });
 
@@ -259,5 +261,6 @@ app.get('/verify', function (req, res) {
 
 /*--------------------Routing Over----------------------------*/
 
+nodeApp.use(gzippo.staticGzip('' + __dirname + '/login'));
 app.listen(3001);
 console.log('Listening on port 3001...');
