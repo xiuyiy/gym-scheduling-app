@@ -261,6 +261,6 @@ app.get('/verify', function (req, res) {
 
 /*--------------------Routing Over----------------------------*/
 
-nodeApp.use(gzippo.staticGzip('' + __dirname + '/login'));
+app.use(gzippo.staticGzip('' + __dirname + '/login'));
 app.listen(3001);
 console.log('Listening on port 3001...');
