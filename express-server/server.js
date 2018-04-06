@@ -264,9 +264,9 @@ app.get('/verify', function (req, res) {
 
 /*--------------------Routing Over----------------------------*/
 
-app.use(express.static(__dirname + '/login'));
-app.get('*', (req, res) =>{
-  res.sendFile(path.resolve(__dirname, '../login.html'));
-});
+app.use(express.static('../' + __dirname + '/login'));
+// app.get('*', (req, res) =>{
+//   res.sendFile(path.resolve(__dirname, '../login.html'));
+// });
 app.listen(process.env.PORT || 5000);
 console.log('Listening on port' + process.env.PORT);
