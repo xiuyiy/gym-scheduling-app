@@ -265,6 +265,7 @@ app.get('/verify', function (req, res) {
 /*--------------------Routing Over----------------------------*/
 
 app.use(express.static('../' + __dirname + '/login'));
+console.log(__dirname);
 // app.get('*', (req, res) =>{
 //   res.sendFile(path.resolve(__dirname, '../login.html'));
 // });
