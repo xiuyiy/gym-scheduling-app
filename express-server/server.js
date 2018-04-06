@@ -265,5 +265,5 @@ app.get('/verify', function (req, res) {
 /*--------------------Routing Over----------------------------*/
 
 app.use(gzippo.staticGzip('' + __dirname + '/login'));
-app.listen(3001);
-console.log('Listening on port 3001...');
+app.listen(process.env.PORT || 5000);
+console.log('Listening on port' + process.env.PORT);
