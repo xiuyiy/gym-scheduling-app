@@ -14,7 +14,7 @@
     "@angular/compiler-cli": "^5.2.9"
   },
   "engines": {
-    "node": "7.10.1",
+    "node": "node": "7.10.1",
     "npm": "5.6.0"
   },
   "scripts": {
