@@ -52,7 +52,10 @@ app.use(function (req, res, next) {
     next();
 });
 
-var connection = mongoose.createConnection('mongodb://localhost/gym-schedule-1');
+// var connection = mongoose.createConnection('mongodb://localhost/gym-schedule-1');
+var connection = mongoose.createConnection('mongodb://heroku_00cppzs1:753fki6rg1tnnfkjvucoasae4m@ds235609.mlab.com:35609/heroku_00cppzs1');
+
+
 autoIncrement.initialize(connection);
 
 var reservationFactory = new reservationFactory(Schema, mongoose, connection, autoIncrement, jwtInfo);
